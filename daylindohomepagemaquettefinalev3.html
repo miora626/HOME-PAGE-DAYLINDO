@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daylindo — Maquette finale homepage (fusion)</title>
+<meta name="description" content="Transformez les savoir-faire de vos équipes terrain en compétences prouvées : Daylindo construit vos référentiels avec vos experts, forme vos tuteurs et enregistre chaque compétence démontrée au poste — une démarche complète, portée par une plateforme, pour sécuriser vos savoir-faire critiques et accélérer l'autonomie. Organisme de formation certifié Qualiopi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rouge:#E85553; --rouge-fonce:#C93F3D; --creme:#F9F1E6; --creme-2:#FDF8F1;
+  --encre:#181410; --gris:#5C554E; --gris-clair:#8A827A; --bord:#E4DACB; --blanc:#fff;
+  --vert:#2E7D5B; --max:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--encre);background:var(--blanc);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+a{color:inherit;text-decoration:none}
+.annot{position:relative}
+.annot::before{content:attr(data-annot);position:absolute;top:8px;left:8px;z-index:5;background:#181410;color:#fff;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:20px;opacity:.8}
+.annot.new::before{background:var(--vert);opacity:.95}
+.ribbon{background:#181410;color:#F3D9A4;text-align:center;font-size:13px;padding:10px 12px;letter-spacing:.2px}
+.ribbon b{color:#fff}
+
+/* HEADER */
+header{background:var(--creme);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--bord)}
+.nav{display:flex;align-items:center;gap:28px;height:74px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:.06em}
+.logo .dot{width:30px;height:30px;border-radius:50%;background:conic-gradient(var(--rouge) 0 30%,#F2C14E 30% 60%,#8E6BA8 60% 100%);flex:none}
+.logo small{display:block;font-size:7px;font-weight:500;letter-spacing:.12em;color:var(--gris-clair);line-height:1}
+.nav ul{display:flex;gap:26px;list-style:none;margin-left:14px;font-size:14.5px;font-weight:500}
+.nav ul li.has::after{content:"▾";font-size:10px;margin-left:4px;color:var(--gris-clair)}
+.nav .right{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font-weight:600;font-size:14.5px;padding:11px 20px;border:2px solid transparent;transition:.15s;cursor:pointer;text-align:center}
+.btn-p{background:var(--rouge);color:#fff}.btn-p:hover{background:var(--rouge-fonce)}
+.btn-o{background:transparent;color:var(--encre);border-color:var(--encre)}.btn-o:hover{background:var(--encre);color:#fff}
+.btn-ghost{background:transparent;color:var(--encre);font-weight:500;padding:11px 8px}
+.btn-lg{padding:15px 26px;font-size:16px}
+
+/* HERO */
+.hero{background:var(--creme);padding:52px 0 46px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--encre);color:#fff;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:8px 15px;border-radius:30px;margin-bottom:20px}
+.eyebrow .qp{background:var(--rouge);border-radius:20px;padding:2px 8px;font-size:10.5px}
+.kicker{font-size:12.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--rouge);margin-bottom:12px}
+h1{font-size:clamp(28px,3.9vw,47px);line-height:1.16;font-weight:700;letter-spacing:-.02em;max-width:20ch}
+.sub{font-size:clamp(16px,1.3vw,18.5px);color:var(--gris);max-width:62ch;margin-top:20px}
+.rupture{font-weight:600;color:var(--encre)}
+.kpis{display:flex;flex-wrap:wrap;gap:12px 30px;margin-top:24px}
+.kpi{display:flex;align-items:baseline;gap:7px}
+.kpi b{font-size:21px;font-weight:700;color:var(--rouge)}
+.kpi span{font-size:13.5px;color:var(--gris)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.cta-note{font-size:12.5px;color:var(--gris-clair);margin-top:11px}
+.trust{margin-top:36px;padding-top:24px;border-top:1px solid var(--bord)}
+.trust p{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris-clair);font-weight:600;margin-bottom:14px}
+.logos{display:flex;flex-wrap:wrap;gap:14px 34px;align-items:center}
+.logos span{font-weight:600;font-size:16px;color:#6E655C;opacity:.85}
+
+/* SECTIONS */
+section{padding:72px 0}
+.alt{background:var(--creme-2)}
+.dark{background:var(--encre);color:#fff}
+h2{font-size:clamp(24px,2.7vw,34px);line-height:1.22;font-weight:700;letter-spacing:-.015em;max-width:26ch}
+h2.wide{max-width:36ch}
+.lead{color:var(--gris);margin-top:14px;max-width:64ch;font-size:16px}
+.dark .lead{color:#BDB5AC}
+.eyebrow2{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--rouge);font-weight:700;margin-bottom:12px}
+.note-tag{display:inline-flex;align-items:center;gap:7px;background:#FFF4D6;color:#8A6D1D;font-size:11.5px;font-weight:700;padding:4px 11px 4px 8px;border-radius:999px;margin:0 0 14px}
+.note-tag .num{background:#8A6D1D;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9.5px;display:flex;align-items:center;justify-content:center}
+
+/* VOIR NOTRE PLATEFORME */
+.showcase{display:grid;grid-template-columns:0.85fr 1.15fr;gap:44px;align-items:start;margin-top:38px}
+.showcase-list{display:flex;flex-direction:column;gap:14px}
+.sitem{border:1px solid var(--bord);border-radius:14px;padding:18px 20px;background:#fff;transition:.15s}
+.sitem.active{border-color:var(--rouge);box-shadow:0 8px 20px rgba(232,85,83,.12)}
+.sitem .snum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--encre);color:#fff;font-size:12px;font-weight:700;margin-right:10px}
+.sitem.active .snum{background:var(--rouge)}
+.sitem h4{display:inline;font-size:15.5px;font-weight:600}
+.sitem p{margin-top:8px;padding-left:34px;font-size:13.5px;color:var(--gris)}
+.sshot{background:#fff;border:1px solid var(--bord);border-radius:18px;box-shadow:0 12px 32px rgba(24,20,16,.09);padding:22px}
+.sshot .dots{display:flex;gap:6px;margin-bottom:16px}
+.sshot .dots span{width:10px;height:10px;border-radius:50%;background:var(--bord)}
+.sshot-row{display:flex;gap:16px}
+.sshot-side{width:130px;flex:none}
+.sshot-side .it{background:var(--creme-2);border-radius:8px;padding:9px 11px;font-size:11.5px;font-weight:700;color:var(--gris);margin-bottom:8px}
+.sshot-side .it.on{background:var(--rouge);color:#fff}
+.sshot-title{font-size:13px;font-weight:800;color:var(--encre);margin-bottom:12px}
+.skillbar{margin-bottom:12px}
+.skillbar .l{display:flex;justify-content:space-between;font-size:12px;color:var(--gris);margin-bottom:5px;font-weight:600}
+.skillbar .t{background:var(--creme-2);border-radius:6px;height:9px;overflow:hidden}
+.skillbar .f{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--rouge),#F2938F)}
+.sbadge{margin-top:14px;background:#E7F4EE;color:var(--vert);font-size:12px;font-weight:800;padding:9px 14px;border-radius:10px;display:inline-flex;align-items:center;gap:6px}
+
+/* CHAINE DE PREUVE */
+.chain{display:grid;grid-template-columns:1fr auto 1fr;gap:26px;margin-top:38px;align-items:stretch}
+.side{border-radius:18px;padding:28px}
+.side.old{background:#F1EDE7;border:1px dashed #C9BFB2}
+.side.new{background:var(--encre);color:#fff}
+.side h3{font-size:13px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:16px}
+.side.old h3{color:var(--gris-clair)}
+.side.new h3{color:var(--rouge)}
+.flow{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.node{padding:11px 15px;border-radius:10px;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:10px}
+.side.old .node{background:#fff;color:var(--gris)}
+.side.new .node{background:rgba(255,255,255,.09);color:#fff}
+.side.new .node:last-child{background:var(--rouge)}
+.node i{font-style:normal;opacity:.5;font-size:12px;font-weight:700}
+.say{font-size:14.5px;line-height:1.5;padding-top:16px;border-top:1px solid rgba(0,0,0,.09)}
+.side.new .say{border-top-color:rgba(255,255,255,.16);color:#D9D2CA}
+.vs{align-self:center;font-weight:700;color:var(--gris-clair);font-size:13px;letter-spacing:.1em}
+
+/* STAT */
+.statgrid{display:grid;grid-template-columns:190px 1fr;gap:40px;align-items:start}
+.bignum{font-size:76px;font-weight:700;color:var(--rouge);line-height:.9;letter-spacing:-.04em}
+.src{font-size:12.5px;color:var(--gris-clair);margin-top:14px;font-style:italic}
+
+/* PORTES */
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:36px}
+.door{background:#fff;border:1px solid var(--bord);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:.18s}
+.door:hover{border-color:var(--rouge);transform:translateY(-3px);box-shadow:0 12px 28px rgba(24,20,16,.07)}
+.door h3{font-size:16px;font-weight:600;line-height:1.3}
+.door .pain{color:var(--gris);font-weight:400;font-size:14px;line-height:1.5}
+.door .who{font-size:12px;color:var(--gris-clair);margin-top:auto;padding-top:10px;border-top:1px solid var(--bord)}
+
+/* RESULTATS (CHIFFRES) */
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:18px;margin-top:34px}
+.res{background:#fff;border:1px solid var(--bord);border-radius:16px;padding:24px}
+.res b{display:block;font-size:34px;font-weight:700;color:var(--rouge);line-height:1;letter-spacing:-.03em}
+.res p{font-weight:600;margin-top:9px;font-size:14.5px}
+.res small{display:block;color:var(--gris-clair);font-size:12px;margin-top:5px;line-height:1.4}
+.disclaim{font-size:12.5px;color:var(--gris-clair);margin-top:16px;font-style:italic}
+
+/* ETAPES (DEMARCHE) */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-top:36px}
+.step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px}
+.step .n{font-size:11.5px;font-weight:700;color:var(--rouge);letter-spacing:.1em;margin-bottom:10px}
+.step h3{font-size:16px;font-weight:600;margin-bottom:7px}
+.step p{font-size:13.5px;color:#BDB5AC;line-height:1.5}
+
+/* PERSONAS (POUR QUI) */
+.personas{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:36px}
+.persona{background:#fff;border:1px solid var(--bord);border-radius:16px;padding:24px}
+.persona h3{font-size:16.5px;font-weight:700;margin-bottom:12px;color:var(--encre)}
+.persona .pl{margin-bottom:9px;font-size:13.5px}
+.persona .pl b{color:var(--rouge);font-weight:600}
+.persona .pgo{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;color:var(--encre);border-bottom:2px solid var(--rouge)}
+
+/* GRILLE DECISION */
+.grid7{margin-top:34px;border:1px solid var(--bord);border-radius:16px;overflow:hidden;background:#fff}
+.q{display:grid;grid-template-columns:1fr 210px;gap:20px;padding:16px 22px;border-bottom:1px solid var(--bord);align-items:center;font-size:15px}
+.q:last-child{border:none}
+.q .ans{font-weight:700;font-size:14px;text-align:right}
+.q.mine .ans{color:var(--rouge)}
+.q.notmine{background:#FAF8F5}
+.q.notmine .ans{color:var(--gris-clair)}
+.honest{margin-top:20px;background:var(--creme);border-radius:14px;padding:20px 24px;font-size:15px;color:var(--gris)}
+.honest b{color:var(--encre);display:block;margin-bottom:6px;font-size:16px}
+
+/* TEST DE L'EXCEL (cas Jean) */
+.matrix{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center;margin-top:22px}
+.xl{border:1px solid var(--bord);border-radius:14px;overflow:hidden;background:#fff;font-size:14.5px}
+.xl table{min-width:0}
+.xl th{background:var(--creme);font-size:13px}
+.xl td,.xl th{padding:12px 16px;text-align:center;border-bottom:1px solid var(--bord)}
+.xl td:first-child,.xl th:first-child{text-align:left;font-weight:600;background:#fff;width:auto}
+.xl tbody td:last-child{background:transparent;font-weight:400}
+.ok{color:var(--vert);font-size:17px}.mid{color:#C9930B;font-size:17px}.ko{color:#C0392B;font-size:17px}
+
+/* TABLEAU COMPARATIF */
+.tblwrap{margin-top:34px;overflow-x:auto;border:1px solid var(--bord);border-radius:16px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{padding:14px 17px;text-align:left;border-bottom:1px solid var(--bord);vertical-align:top}
+thead th{background:var(--creme);font-weight:600;font-size:13px}
+thead th:last-child{background:var(--rouge);color:#fff}
+tbody td:first-child{font-weight:600;width:24%}
+tbody td:last-child{background:#FEF6F6;font-weight:600}
+tbody tr:last-child td{border-bottom:none}
+.no{color:var(--gris-clair)}.yes{color:var(--rouge)}
+.punch{margin-top:24px;border-left:4px solid var(--rouge);padding:17px 22px;background:var(--creme);border-radius:0 12px 12px 0}
+.punch strong{display:block;font-size:17px;margin-bottom:6px}
+.punch span{color:var(--gris);font-size:15px}
+
+/* COMPLEMENTARITE */
+.stack{margin-top:30px;display:flex;flex-direction:column;gap:9px;max-width:840px}
+.layer{border-radius:14px;padding:17px 22px;display:grid;grid-template-columns:190px 1fr;gap:22px;align-items:center;border:1px solid var(--bord);background:#fff}
+.layer b{font-weight:700;font-size:15px}
+.layer span{font-size:13.5px;color:var(--gris)}
+.layer.me{background:var(--rouge);border-color:var(--rouge);color:#fff}
+.layer.me b{color:#fff}.layer.me span{color:#FFE6E5}
+
+/* TEMOIGNAGE */
+.quote{background:var(--encre);color:#fff;border-radius:20px;padding:40px;margin-top:32px;display:grid;grid-template-columns:1.25fr 1fr;gap:36px;align-items:center}
+.quote q{font-size:clamp(19px,2.1vw,26px);font-weight:600;line-height:1.35;display:block}
+.quote .who{margin-top:18px;font-size:14px;color:#BDB5AC}
+.quote .who b{color:#fff;font-weight:600}
+.orangebox{background:rgba(255,255,255,.08);border-radius:14px;padding:22px}
+.orangebox div{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.13);font-size:14px;color:#D9D2CA}
+.orangebox div:last-child{border:none}
+.orangebox b{color:var(--rouge);font-size:19px;display:block}
+.second-proof{margin-top:18px;font-size:13.5px;color:var(--gris);background:var(--creme);border-radius:12px;padding:16px 20px}
+.second-proof b{color:var(--encre)}
+
+/* FAQ */
+details{border:1px solid var(--bord);border-radius:14px;margin-top:11px;background:#fff;overflow:hidden}
+summary{padding:17px 22px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:15px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:22px;color:var(--rouge);font-weight:400;flex:none}
+details[open] summary::after{content:"–"}
+details p{padding:0 22px 20px;color:var(--gris);font-size:14.5px;max-width:80ch}
+
+/* CTA FINAL */
+.final{text-align:center;background:var(--creme);border-radius:22px;padding:54px 40px}
+.final h2{margin:0 auto;max-width:24ch}
+.final .lead{margin:15px auto 0}
+.final .cta-row{justify-content:center}
+.lvl{display:flex;justify-content:center;gap:48px;margin-top:14px;font-size:12px;color:var(--gris-clair)}
+
+/* FOOTER */
+footer{background:var(--encre);color:#BDB5AC;padding:56px 0 26px;font-size:14px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:30px}
+footer h4{color:#fff;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:600}
+footer li{list-style:none;margin-bottom:9px}
+footer a:hover{color:#fff}
+.fbot{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-size:12.5px;color:#8A827A}
+
+.legend{background:#fffaf0;border-top:4px solid #8A6D1D;padding:48px 0 68px}
+.legend h2{font-size:21px}
+.legend ol{padding-left:22px;color:var(--encre)}
+.legend li{margin-bottom:10px;font-size:14px}
+.legend li b{color:#181410}
+
+@media(max-width:960px){
+  .nav ul{display:none}
+  .chain,.showcase,.statgrid,.quote,.matrix{grid-template-columns:1fr}
+  .vs{text-align:center}
+  .bignum{font-size:56px}
+  .layer{grid-template-columns:1fr;gap:6px}
+  .q{grid-template-columns:1fr;gap:6px}.q .ans{text-align:left}
+  .cta-row .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="ribbon">🖼️ <b>MAQUETTE FINALE v3 — homepage fusionnée</b> — nouveau H1 plus direct, CTA « Faire une auto-évaluation », chiffres corrigés (3 000 / 6 000 / 5 ans), titre Douleurs aligné sur le site actuel. Notes de conception en bas de page.</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#"><span class="dot"></span><span>DAYLINDO<small>WHEN SKILLS MATTER &amp; EXPERIENCE COUNT</small></span></a>
+    <ul><li>Plateforme</li><li class="has">Solutions</li><li class="has">Ressources</li><li>Cas clients</li><li>Tarifs</li></ul>
+    <div class="right">
+      <a class="btn btn-ghost" href="#">Se connecter</a>
+      <a class="btn btn-p" href="#final">Faire le diagnostic</a>
+    </div>
+  </div>
+</header>
+
+<!-- 1. HERO -->
+<div class="hero annot new" data-annot="1 · Hero — H1 recommandé (#9) + sous-titre 1 + CTA restructurés">
+  <div class="wrap">
+    <div class="eyebrow"><span class="qp">QUALIOPI</span> Organisme de formation certifié · dispositif finançable OPCO</div>
+    <p class="kicker">Gestion des compétences terrain &amp; opérationnelles</p>
+    <h1>Transformez vos savoir-faire terrain en compétences prouvées</h1>
+    <p class="sub">Daylindo vous accompagne de A à Z pour transformer vos savoir-faire terrain en compétences structurées, transmises et prouvées. <span class="rupture">Une démarche complète, soutenue par une plateforme : pour accélérer l'autonomie, sécuriser les savoir-faire critiques et piloter vos compétences.</span></p>
+
+    <div class="cta-row">
+      <a class="btn btn-p btn-lg" href="#final">Faire mon diagnostic gratuit — 30 min</a>
+      <a class="btn btn-o btn-lg" href="https://www.daylindo.com/nos-kits-devaluation">Faire une auto-évaluation</a>
+    </div>
+    <p class="cta-note">Sans engagement · Le kit d'évaluation des compétences est accessible immédiatement</p>
+
+    <div class="trust">
+      <div class="kpis">
+        <div class="kpi"><b>3 000</b><span>formations transformées en parcours compétences</span></div>
+        <div class="kpi"><b>6 000</b><span>collaborateurs accompagnés</span></div>
+        <div class="kpi"><b>5 ans</b><span>de R&amp;D</span></div>
+      </div>
+      <p style="margin-top:26px">Ils nous font confiance</p>
+      <div class="logos"><span>Orange</span><span>AFPA</span><span>DomusVi</span><span>The Adecco Group</span><span>Groupe Soufflet</span><span>Supplay</span><span>CFA Trajectoire</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. DOULEURS / SITUATIONS (site actuel) -->
+<section class="annot" data-annot="2 · Douleurs — 6 situations + stat 68% (site actuel)">
+  <div class="wrap">
+    <p class="eyebrow2">Votre situation</p>
+    <h2 class="wide">Dans laquelle de ces situations vous trouvez-vous ?</h2>
+    <p class="lead">Les problèmes diffèrent. La démarche de fond est la même.</p>
+    <div class="doors">
+      <a class="door" href="#">
+        <h3>Organisation fondée sur les compétences</h3>
+        <p class="pain">GPEC peu connectée au terrain, SBO manquant de données fiables, formation interne invisible.</p>
+        <p class="who">DRH · L&amp;D · GPEC · Grands comptes</p>
+      </a>
+      <a class="door" href="#">
+        <h3>Savoir-faire critiques à sécuriser</h3>
+        <p class="pain">La maîtrise des compétences conditionne la performance ; les savoir-faire critiques risquent de partir avec les collaborateurs expérimentés.</p>
+        <p class="who">Industrie · Réseaux · Énergie</p>
+      </a>
+      <a class="door" href="#">
+        <h3>Turnover élevé &amp; intégration coûteuse</h3>
+        <p class="pain">Chaque départ recommence le cycle à zéro. L'intégration coûte autant qu'avant, et les résultats restent imprévisibles.</p>
+        <p class="who">Intérim · Logistique · Retail</p>
+      </a>
+      <a class="door" href="#">
+        <h3>Réseaux multi-sites hétérogènes</h3>
+        <p class="pain">Même poste, même enseigne, mais pas le même niveau selon le site.</p>
+        <p class="who">Intérim · Retail · Franchises</p>
+      </a>
+      <a class="door" href="#">
+        <h3>Forces de vente &amp; équipes terrain</h3>
+        <p class="pain">Vous voyez les résultats. Vous ne voyez pas ce qui les produit, ni ce qui les freine.</p>
+        <p class="who">Agroalimentaire · Industrie · B2B</p>
+      </a>
+      <a class="door" href="#">
+        <h3>Organismes de formation &amp; CFA</h3>
+        <p class="pain">Vos formations s'arrêtent à la sortie de la salle. Ce qui se passe en entreprise reste invisible.</p>
+        <p class="who">OF · CFA · AFEST</p>
+      </a>
+    </div>
+    <div class="statgrid" style="margin-top:44px">
+      <div class="bignum">68%</div>
+      <div>
+        <p class="lead" style="margin-top:0">des entreprises forment maintenant en interne, contre 30% en 2010. Mais la plupart le font sans outil ni démarche adaptés, et sans aucune trace des compétences réellement acquises sur le terrain.</p>
+        <p class="src">Étude Lefevre Dalloz, 2025</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. DEMARCHE (site actuel) -->
+<section class="dark annot" data-annot="3 · Démarche — 4 étapes, texte du site actuel">
+  <div class="wrap">
+    <p class="eyebrow2">La méthode</p>
+    <h2 class="wide">Le cycle complet, de l'atelier jusqu'à votre SIRH</h2>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Structurer</h3><p>Référentiels métier construits depuis le travail réel, avec vos experts.</p></div>
+      <div class="step"><div class="n">02</div><h3>Outiller les formateurs</h3><p>Vos tuteurs et formateurs terrain formés, outillés et reconnus, pas juste désignés.</p></div>
+      <div class="step"><div class="n">03</div><h3>Déployer au poste</h3><p>Parcours déployés en situation de travail réelle, sur mobile, au plus près du geste, pas en salle.</p></div>
+      <div class="step"><div class="n">04</div><h3>Tracer et valoriser</h3><p>Preuves horodatées, attestations opposables, données exploitables par vos outils RH et financeurs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. POUR QUI -->
+<section class="alt annot" data-annot="4 · Pour qui — 4 personas (structure conservée, copie plus experte) + grille d'auto-qualification">
+  <div class="wrap">
+    <p class="eyebrow2">Pour qui</p>
+    <h2 class="wide">Conçu pour les entreprises qui ont des équipes sur le terrain</h2>
+    <div class="personas">
+      <div class="persona">
+        <h3>DRH / RH Groupe</h3>
+        <p class="pl"><b>Problème —</b> une GEPP construite sur des référentiels théoriques, sans donnée de terrain pour l'objectiver</p>
+        <p class="pl"><b>Besoin —</b> fiabiliser la gestion prévisionnelle des emplois et compétences, et la rendre opposable en cas d'audit</p>
+        <p class="pl"><b>Daylindo apporte —</b> des données de compétences réelles, horodatées, remontées automatiquement dans votre SIRH</p>
+        <span class="pgo">Voir la solution GEPP →</span>
+      </div>
+      <div class="persona">
+        <h3>Responsable formation / L&amp;D</h3>
+        <p class="pl"><b>Problème —</b> une ingénierie de formation en salle, déconnectée des situations réelles de travail</p>
+        <p class="pl"><b>Besoin —</b> structurer et professionnaliser l'AFEST et le tutorat interne, dans un cadre conforme Qualiopi</p>
+        <p class="pl"><b>Daylindo apporte —</b> des tuteurs formés, outillés et reconnus, des parcours tracés au poste de travail</p>
+        <span class="pgo">Voir le guide AFEST →</span>
+      </div>
+      <div class="persona">
+        <h3>Manager terrain / Production</h3>
+        <p class="pl"><b>Problème —</b> une polyvalence impossible à objectiver et un onboarding long, aux résultats imprévisibles</p>
+        <p class="pl"><b>Besoin —</b> disposer d'une cartographie fiable des compétences maîtrisées poste par poste, et sécuriser l'intégration</p>
+        <p class="pl"><b>Daylindo apporte —</b> une matrice de compétences prouvée et un parcours d'intégration piloté au poste</p>
+        <span class="pgo">Télécharger la matrice de compétences →</span>
+      </div>
+      <div class="persona">
+        <h3>Direction industrielle / CFA &amp; organismes de formation</h3>
+        <p class="pl"><b>Problème —</b> des savoir-faire critiques exposés au départ d'experts, un suivi AFEST invisible entre deux sessions</p>
+        <p class="pl"><b>Besoin —</b> sécuriser la transmission des compétences critiques et prouver la conformité Qualiopi auprès des financeurs</p>
+        <p class="pl"><b>Daylindo apporte —</b> des référentiels co-construits avec vos experts métier et des preuves opposables, exploitables en audit</p>
+        <span class="pgo">Faire mon diagnostic gratuit →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. COMPARATIF -->
+<section class="annot" data-annot="5 · Comparatif — cas Jean (compétence supposée vs prouvée)">
+  <div class="wrap">
+    <p class="eyebrow2">Ce que Daylindo est, et ce qu'il n'est pas</p>
+    <h2 class="wide">« Jean est technicien niveau 3. » D'accord. Mais sur quoi repose cette affirmation ?</h2>
+    <p class="lead">C'est la différence entre une compétence qu'on suppose et une compétence qu'on peut démontrer. Elle décide de ce que vous pouvez affirmer devant un auditeur, un client, ou un manager qui doit affecter quelqu'un à un poste demain matin.</p>
+    <div class="chain">
+      <div class="side old">
+        <h3>Ce que produisent les outils RH classiques</h3>
+        <div class="flow">
+          <div class="node"><i>01</i> Compétence supposée</div>
+          <div class="node"><i>02</i> Compétence déclarée</div>
+          <div class="node"><i>03</i> Compétence inférée</div>
+        </div>
+        <p class="say">Déduite du poste, du CV, des formations suivies, des déclarations d'entretien. Personne n'a jamais vu Jean le faire.</p>
+      </div>
+      <div class="vs">VS</div>
+      <div class="side new">
+        <h3>Ce que produit Daylindo</h3>
+        <div class="flow">
+          <div class="node"><i>01</i> Compétence observée</div>
+          <div class="node"><i>02</i> Compétence évaluée</div>
+          <div class="node"><i>03</i> Compétence prouvée</div>
+        </div>
+        <p class="say">Observée en situation de travail réelle par un tuteur formé, évaluée sur un référentiel construit avec vos experts, prouvée par une trace horodatée et opposable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. TEMOIGNAGE -->
+<section class="alt annot" data-annot="6 · Témoignage — inchangé, Orange + orangebox + AFPA/DomusVi">
+  <div class="wrap">
+    <p class="eyebrow2">La preuve</p>
+    <h2>Ils l'ont fait</h2>
+    <div class="quote">
+      <div>
+        <q>On est passé d'une logique de formations à une logique de compétences.</q>
+        <p class="who"><b>Ahmed Kabèche</b> — Directeur École des métiers techniques, <b>Orange</b></p>
+      </div>
+      <div class="orangebox">
+        <div><b>3 000</b> formations transformées en parcours compétences</div>
+        <div><b>~2 000</b> collaborateurs formés en situation réelle chaque année</div>
+        <div><b>20+</b> parcours de reconversion pilotés</div>
+      </div>
+    </div>
+    <div class="second-proof"><b>Partenariat AFPA × DomusVi —</b> 1 700 collaborateurs accompagnés dans une démarche de professionnalisation, avec le soutien de l'État. Preuve la plus indépendante disponible (communiqué officiel AFPA, 2023).</div>
+  </div>
+</section>
+
+<!-- 7. FAQ -->
+<section class="annot" data-annot="7 · FAQ — 10 questions stratégiques, FAQPage schema.org">
+  <div class="wrap">
+    <p class="eyebrow2">Questions fréquentes</p>
+    <h2 class="wide">Les questions qu'on nous pose</h2>
+    <div style="margin-top:28px;max-width:900px">
+      <details open><summary>Qu'est-ce que Daylindo, exactement ?</summary><p>Daylindo est une solution d'accompagnement complète qui permet aux entreprises de structurer, transmettre, développer et évaluer leurs compétences directement sur le terrain. Elle combine référentiels métiers, parcours de développement des compétences, accompagnement des tuteurs et évaluation en situation de travail pour rendre les compétences concrètes, mesurables et prouvables.</p></details>
+      <details><summary>En quoi Daylindo est-il différent d'un LMS ?</summary><p>Un LMS répond à « est-ce que la personne a suivi la formation ? ». Daylindo répond à « est-ce que la personne sait réellement faire, dans les conditions de son poste ? » : référentiels construits avec vos experts, tuteurs formés, compétence démontrée en situation de travail réelle.</p></details>
+      <details><summary>Faut-il remplacer notre SIRH ou notre LMS ?</summary><p>Non. Daylindo est une couche opérationnelle complémentaire qui s'intègre aux LMS, SIRH, TMS et outils de Talent Management pour les alimenter en données issues du terrain. Vous gardez vos outils, vous gagnez la donnée qui leur manque.</p></details>
+      <details><summary>Qu'est-ce qu'une compétence « prouvée », exactement ?</summary><p>Une compétence observée en situation de travail réelle par un tuteur ou un formateur formé, évaluée selon un référentiel construit avec vos experts métier, horodatée, et matérialisée par une attestation opposable — l'inverse d'une compétence inférée d'un CV, d'un poste ou d'une formation suivie.</p></details>
+      <details><summary>Comment les compétences sont-elles évaluées et tracées ?</summary><p>Par observation en situation réelle, formalisée par un tuteur ou un formateur formé, sur un référentiel construit avec vos experts. Chaque évaluation est horodatée et devient une donnée exploitable, exportable vers vos systèmes RH.</p></details>
+      <details><summary>Quel rôle jouent les tuteurs, et comment sont-ils accompagnés ?</summary><p>Vos experts internes deviennent des formateurs structurés : ils sont formés à observer, évaluer et transmettre, outillés pour le faire au poste de travail, et reconnus dans ce rôle — pas seulement désignés comme c'est souvent le cas.</p></details>
+      <details><summary>Daylindo permet-il de mettre en œuvre une AFEST conforme Qualiopi ?</summary><p>Oui. Le suivi des alternants et la traçabilité AFEST sont un cas d'usage à part entière : formalisation du rôle du tuteur, observations en situation, preuves exploitables par les financeurs et les organismes certificateurs.</p></details>
+      <details><summary>Pour quelles entreprises et quels secteurs Daylindo est-il conçu ?</summary><p>Pour les entreprises avec des équipes sur le terrain : industrie, distribution, santé, logistique, intérim, ainsi que les organismes de formation et CFA pour le suivi de l'alternance et de l'AFEST.</p></details>
+      <details><summary>Est-ce finançable par notre OPCO ?</summary><p>Daylindo est un organisme de formation certifié Qualiopi. Le dispositif relève de l'action de formation et peut être présenté au financement de votre OPCO, selon les règles et critères d'éligibilité applicables à votre entreprise. Nous montons le dossier avec vous.</p></details>
+      <details><summary>Combien de temps faut-il pour déployer Daylindo ?</summary><p>Le délai dépend du nombre de référentiels et de sites concernés. Le diagnostic gratuit de 30 minutes permet d'estimer un calendrier réaliste pour votre organisation plutôt que d'annoncer un délai générique qui ne correspondrait à aucun cas réel.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 8. CTA FINAL -->
+<section id="final" class="alt annot" data-annot="8 · CTA final — concept 1, deux niveaux d'engagement">
+  <div class="wrap">
+    <div class="final">
+      <p class="eyebrow2">Diagnostic gratuit — 30 minutes</p>
+      <h2>Prêt à rendre visibles les compétences de vos équipes terrain ?</h2>
+      <p class="lead">Faisons le diagnostic de vos enjeux — 30 minutes, sans engagement — et identifions concrètement ce que Daylindo peut structurer, déployer et tracer dans votre organisation.</p>
+      <div class="cta-row">
+        <a class="btn btn-p btn-lg" href="#">Planifier mon diagnostic — 30 min</a>
+        <a class="btn btn-o btn-lg" href="#">Télécharger la matrice de compétences</a>
+      </div>
+      <div class="lvl"><span>engagement fort</span><span>engagement faible</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. FOOTER -->
+<footer class="annot" data-annot="9 · Footer">
+  <div class="wrap">
+    <div class="fgrid">
+      <div><h4>Solutions</h4><ul>
+        <li><a href="#">Cartographier les compétences</a></li>
+        <li><a href="#">Transmission des savoir-faire</a></li>
+        <li><a href="#">Réduire le turnover</a></li>
+        <li><a href="#">Polyvalence et multi-sites</a></li>
+        <li><a href="#">Forces de vente et équipes terrain</a></li>
+        <li><a href="#">Organismes de formation et CFA</a></li>
+      </ul></div>
+      <div><h4>Ressources</h4><ul>
+        <li><a href="#">Modèle de matrice de compétences</a></li>
+        <li><a href="#">Kit d'évaluation des compétences</a></li>
+        <li><a href="#">Guide AFEST</a></li>
+        <li><a href="#">Guide GEPP</a></li>
+        <li><a href="#">Financement OPCO</a></li>
+        <li><a href="#">Lexique des compétences terrain</a></li>
+      </ul></div>
+      <div><h4>Entreprise</h4><ul>
+        <li><a href="#">Cas clients</a></li><li><a href="#">Preuves</a></li>
+        <li><a href="#">Manifeste Daylindo</a></li><li><a href="#">Blog</a></li>
+      </ul></div>
+      <div><h4>Contact</h4><ul>
+        <li><a href="tel:+33756940907">+33 7 56 94 09 07</a></li>
+        <li><a href="mailto:contact@daylindo.com">contact@daylindo.com</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 DAYLINDO · SIREN 830721916 · TVA FR50830721916</span>
+      <span>Mentions légales · Politique de confidentialité · CGV · CGU</span>
+    </div>
+  </div>
+</footer>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="wrap">
+    <h2>🗒️ Notes de version — retours de réunion intégrés</h2>
+    <ol>
+      <li><b>① Hero :</b> nouveau H1 — « Transformez les savoir-faire de vos équipes terrain en compétences prouvées. » — suite aux retours jugeant l'ancienne formulation trop compliquée. Sous-titre retravaillé pour répondre en 2 phrases simples à quoi/pour qui/résultat attendu : phrase 1 = le mécanisme (référentiels avec vos experts, tuteurs formés, démarche + plateforme) et la cible (entreprises avec des équipes terrain) ; phrase 2 = le résultat (savoir-faire sécurisés, autonomie accélérée, compétences pilotables) — sans reprendre le triptyque structurer/transmettre/prouver déjà utilisé dans une proposition de sous-titre reçue, qui recréait la même lourdeur que l'ancien H1 juste en dessous. Le CTA secondaire devient « Faire une auto-évaluation » et pointe vers le kit d'évaluation déjà en ligne (daylindo.com/nos-kits-devaluation).</li>
+      <li><b>② Chiffres + preuve sociale :</b> les 3 chiffres sont regroupés juste après les CTA avec le bloc « Ils nous font confiance ». Chiffres corrigés sur indication : 3 000 formations, 6 000 collaborateurs accompagnés, 5 ans de R&amp;D (remplace l'ancien 1 700 AFPA/DomusVi, qui reste néanmoins cité dans le Témoignage comme preuve spécifique à ce partenariat). La section « Voir notre plateforme » et la section « Chiffres » autonome de la version précédente ont été retirées : elles n'étaient pas dans les 9 blocs validés en réunion.</li>
+      <li><b>③ Douleurs :</b> titre aligné sur le site actuel — « Dans laquelle de ces situations vous trouvez-vous ? » — et contenu remplacé par le texte exact du site actuel (daylindo.com) — 6 situations : Organisation fondée sur les compétences, Savoir-faire critiques à sécuriser, Turnover élevé &amp; intégration coûteuse, Réseaux multi-sites hétérogènes, Forces de vente &amp; équipes terrain, Organismes de formation &amp; CFA. La statistique 68% (Étude Lefevre Dalloz, 2025), présente sur le site actuel, a été réintégrée en clôture de cette section — elle avait été oubliée dans une version précédente.</li>
+      <li><b>④ Démarche :</b> revenue aux 4 étapes exactes du site actuel — Structurer, Outiller les formateurs, Déployer au poste, Tracer et valoriser — avec leurs descriptions verbatim. Les étapes 5 (Prouver) et 6 (Alimenter) de la version enrichie Daniela ont été retirées, de même que la section séparée « Notre démarche » (chaîne de la preuve), absente des 9 blocs validés.</li>
+      <li><b>⑤ Pour qui :</b> structure des 4 personas inchangée, formulation retravaillée pour un registre plus expert (vocabulaire GEPP, AFEST, Qualiopi, cartographie des compétences) tout en gardant le triptyque Problème / Besoin / Ce qu'apporte Daylindo. La grille des « Sept questions » a été retirée sur demande.</li>
+      <li><b>⑥ Comparatif :</b> réduit au cas Jean — « Jean est technicien niveau 3. D'accord, mais sur quoi repose cette affirmation ? » (compétence supposée/déclarée/inférée vs observée/évaluée/prouvée). Le tableau LMS/SIRH/Daylindo et le bloc « Complémentaire, pas concurrent » ont été retirés sur demande.</li>
+      <li><b>⑦ Témoignage :</b> strictement inchangé — texte + chiffres détaillés « orangebox » Orange, partenariat AFPA/DomusVi en preuve secondaire, comme validé.</li>
+      <li><b>⑧ FAQ :</b> 10 questions retenues sur 12 analysées selon les critères du brief (intention, réponse courte/complète, valeur SEO/GEO/conversion) — 2 écartées pour redondance ou donnée non confirmée à ne pas inventer. Balisage FAQPage schema.org à implémenter en développement.</li>
+      <li><b>⑨ CTA final et footer :</b> inchangés — CTA positionné juste après la FAQ, deux niveaux d'engagement (fort/faible), footer conforme à l'existant (contact, mentions légales, SIREN/TVA vérifiés sur le site).</li>
+    </ol>
+  </div>
+</div>
+
+</body>
+</html>
