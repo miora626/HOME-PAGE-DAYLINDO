@@ -1,0 +1,860 @@
+<title>Positionnement Daylindo</title>
+<style>
+:root{
+  --paper:#F5F4F0; --surface:#FFFFFF; --surface-2:#ECEAE3; --ink:#1B1E23; --ink-muted:#5C6270; --line:#DEDBD3;
+  --accent:#2B5D63; --accent-soft:#E4EEEC;
+  --a-color:#46536E; --a-soft:#E7EAF1;
+  --b-color:#7A4E82; --b-soft:#F0E6F1;
+  --good:#2F7D4F; --good-soft:#E3F2E7;
+  --warn:#B9701E; --warn-soft:#FBEEDD;
+  --bad:#B23A2A; --bad-soft:#FBE6E3;
+  --shadow: 0 1px 2px rgba(27,30,35,.06), 0 8px 24px rgba(27,30,35,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14161A; --surface:#1B1E24; --surface-2:#22262D; --ink:#ECEAE5; --ink-muted:#A6ACBB; --line:#33373F;
+    --accent:#7BC6CA; --accent-soft:#1E3A3C;
+    --a-color:#9AA8D6; --a-soft:#262B3D;
+    --b-color:#D2A6D9; --b-soft:#372A3B;
+    --good:#69C48C; --good-soft:#1C3324;
+    --warn:#E6AC5C; --warn-soft:#3A2C16;
+    --bad:#E68272; --bad-soft:#3A211D;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --surface:#1B1E24; --surface-2:#22262D; --ink:#ECEAE5; --ink-muted:#A6ACBB; --line:#33373F;
+  --accent:#7BC6CA; --accent-soft:#1E3A3C;
+  --a-color:#9AA8D6; --a-soft:#262B3D;
+  --b-color:#D2A6D9; --b-soft:#372A3B;
+  --good:#69C48C; --good-soft:#1C3324;
+  --warn:#E6AC5C; --warn-soft:#3A2C16;
+  --bad:#E68272; --bad-soft:#3A211D;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:'Public Sans',-apple-system,'Segoe UI',sans-serif; font-size:16px; line-height:1.62;}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif; font-weight:640; text-wrap:balance; color:var(--ink); line-height:1.18; margin:0;}
+a{color:var(--accent);}
+code,.mono,.tabnum{font-family:'IBM Plex Mono',ui-monospace,monospace; font-variant-numeric:tabular-nums;}
+
+.layout{display:grid; grid-template-columns:264px minmax(0,1fr); max-width:1320px; margin:0 auto;}
+.toc{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 16px 40px 26px; border-right:1px solid var(--line);}
+.toc-brand{font-family:'Fraunces',serif; font-weight:680; font-size:1.02rem; margin-bottom:4px;}
+.toc-sub{font-size:.7rem; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:20px;}
+.toc ol{list-style:none; margin:0; padding:0; counter-reset:toc;}
+.toc li{counter-increment:toc; margin-bottom:1px;}
+.toc a{display:block; font-size:.8rem; color:var(--ink-muted); text-decoration:none; padding:4px 8px 4px 10px; border-left:2px solid transparent; line-height:1.3;}
+.toc a::before{content: counter(toc) "."; font-family:'IBM Plex Mono',monospace; color:var(--line); margin-right:6px; font-size:.7rem;}
+.toc a:hover{color:var(--ink); border-left-color:var(--line);}
+.toc a.active{color:var(--accent); border-left-color:var(--accent); font-weight:600;}
+
+main{padding:0 0 100px;}
+.hero-block{padding:46px 56px 34px; border-bottom:1px solid var(--line);}
+.eyebrow{font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); margin-bottom:14px;}
+.hero-block h1{font-size:2.05rem; max-width:820px;}
+.hero-block .dek{color:var(--ink-muted); max-width:680px; margin-top:12px; font-size:1.02rem;}
+
+section{padding:44px 56px; border-bottom:1px solid var(--line);}
+section:last-of-type{border-bottom:none;}
+section h2{font-size:1.45rem; margin-bottom:6px;}
+section .sec-num{font-family:'IBM Plex Mono',monospace; color:var(--ink-muted); font-size:.78rem; display:block; margin-bottom:6px;}
+section h3{font-size:1.1rem; margin:24px 0 10px;}
+section p{margin:0 0 14px; max-width:74ch;}
+section p:last-child{margin-bottom:0;}
+.lede{color:var(--ink-muted); max-width:70ch; margin-bottom:22px; font-size:1.01rem;}
+
+.pill{display:inline-flex; align-items:center; gap:6px; font-size:.82rem; font-weight:600; padding:4px 12px; border-radius:20px;}
+.pill-a{background:var(--a-soft); color:var(--a-color);}
+.pill-b{background:var(--b-soft); color:var(--b-color);}
+.pill-good{background:var(--good-soft); color:var(--good);}
+.pill-warn{background:var(--warn-soft); color:var(--warn);}
+.pill-bad{background:var(--bad-soft); color:var(--bad);}
+
+.verdict-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:24px 0;}
+.score-card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px 24px; box-shadow:var(--shadow);}
+.score-card .label{font-size:.74rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-muted); font-weight:600; margin-bottom:10px;}
+.score-card .num{font-family:'IBM Plex Mono',monospace; font-size:2.6rem; font-weight:600; line-height:1;}
+.score-card.a .num{color:var(--a-color);} .score-card.b .num{color:var(--b-color);}
+.score-card .num small{font-size:1.1rem; color:var(--ink-muted); font-weight:400;}
+.score-card.delta .num{color:var(--good);}
+.bar{height:8px; border-radius:5px; background:var(--surface-2); margin-top:12px; overflow:hidden;}
+.bar>span{display:block; height:100%; border-radius:5px;}
+.bar.a>span{background:var(--a-color);} .bar.b>span{background:var(--b-color);}
+
+.verdict-banner{display:flex; align-items:center; gap:16px; background:var(--good-soft); border:1px solid var(--good); border-radius:14px; padding:20px 26px; margin:24px 0;}
+.verdict-banner .icon{font-size:1.8rem;}
+.verdict-banner strong{font-size:1.15rem; color:var(--ink); display:block; margin-bottom:2px;}
+.verdict-banner span{color:var(--ink-muted); font-size:.92rem;}
+
+.callout{border-radius:14px; padding:22px 26px; margin:22px 0; border:1px solid var(--line);}
+.callout.info{background:var(--accent-soft); border-color:var(--accent);}
+.callout.info h4{color:var(--accent); font-family:'Public Sans',sans-serif; font-size:.95rem; text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;}
+.callout.warn{background:var(--warn-soft); border-color:var(--warn);}
+.callout.warn h4{color:var(--warn); font-family:'Public Sans',sans-serif; font-size:.95rem; text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px;}
+
+.tablewrap{overflow-x:auto; margin:18px 0 24px; border:1px solid var(--line); border-radius:12px;}
+table{border-collapse:collapse; width:100%; min-width:640px; font-size:.9rem; background:var(--surface);}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+th{background:var(--surface-2); font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); font-weight:600;}
+tr:last-child td{border-bottom:none;}
+td.num,th.num{text-align:right; font-family:'IBM Plex Mono',monospace;}
+.scoreup{color:var(--good); font-weight:600;} .scoreflat{color:var(--ink-muted);}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:20px 0;}
+@media (max-width:760px){.two-col{grid-template-columns:1fr;}}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
+.panel.a{border-top:4px solid var(--a-color);} .panel.b{border-top:4px solid var(--b-color);}
+.panel .kicker{font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-muted); margin-bottom:8px;}
+.panel h4{font-family:'Public Sans',sans-serif; font-weight:700; font-size:1rem; margin-bottom:8px;}
+.quote{font-family:'Fraunces',serif; font-style:italic; font-size:1.05rem; line-height:1.5;}
+
+.impact-block{border-left:3px solid var(--line); padding-left:18px; margin-bottom:20px;}
+.impact-block.fort{border-color:var(--good);} .impact-block.moyen{border-color:var(--warn);} .impact-block.faible{border-color:var(--ink-muted);}
+.impact-block h4{font-family:'Public Sans',sans-serif; font-weight:700; font-size:.95rem; margin-bottom:8px;}
+.impact-block ul{margin:0; padding-left:18px;} .impact-block li{margin-bottom:6px;}
+
+.mod-card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin-bottom:16px;}
+.mod-card h4{font-family:'Public Sans',sans-serif; font-weight:700; font-size:.98rem; margin-bottom:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.mod-row{display:grid; grid-template-columns:130px 1fr; gap:10px; margin-bottom:8px; font-size:.92rem;}
+.mod-row b{color:var(--ink-muted); font-weight:600; font-size:.76rem; text-transform:uppercase; letter-spacing:.04em; padding-top:2px;}
+
+.p-badge{display:inline-block; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.72rem; padding:3px 9px; border-radius:6px;}
+.p-important{background:var(--bad-soft); color:var(--bad);}
+.p-envisager{background:var(--warn-soft); color:var(--warn);}
+.p-optionnel{background:var(--surface-2); color:var(--ink-muted);}
+
+ul.clean{padding-left:20px; margin:0 0 14px;} ul.clean li{margin-bottom:7px;}
+
+.option-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin:20px 0;}
+.option-card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px 20px;}
+.option-card .opt-label{font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--accent); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;}
+.option-card .opt-formula{font-family:'Fraunces',serif; font-style:italic; font-size:1rem; margin-bottom:12px; line-height:1.4;}
+.option-card dl{margin:0; font-size:.85rem;}
+.option-card dt{color:var(--ink-muted); font-weight:600; font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; margin-top:8px;}
+.option-card dd{margin:2px 0 0;}
+
+.proposal-card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 20px; margin-bottom:12px;}
+.proposal-card .p-h1{font-family:'Fraunces',serif; font-size:1.08rem; font-style:italic; margin-bottom:10px; color:var(--ink);}
+.proposal-card .p-desc{font-size:.94rem; color:var(--ink-muted); margin-bottom:10px;}
+.proposal-meta{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; font-size:.78rem;}
+@media (max-width:760px){.proposal-meta{grid-template-columns:repeat(2,1fr);}}
+.proposal-meta div b{display:block; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.04em; font-size:.68rem; margin-bottom:2px;}
+
+.mockup{background:var(--surface); border:2px solid var(--accent); border-radius:18px; padding:36px 40px; margin:24px 0;}
+.mockup .m-kicker{font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:14px;}
+.mockup h3{font-family:'Fraunces',serif; font-size:1.65rem; margin-bottom:14px; max-width:640px;}
+.mockup .m-desc{color:var(--ink-muted); max-width:600px; margin-bottom:20px; font-size:1.02rem;}
+.mockup .m-cta{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;}
+.mockup .btn{padding:10px 20px; border-radius:8px; font-weight:600; font-size:.92rem;}
+.mockup .btn-primary{background:var(--accent); color:var(--surface);}
+.mockup .btn-secondary{background:var(--surface-2); color:var(--ink);}
+.mockup .m-blocks{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;}
+@media (max-width:640px){.mockup .m-blocks{grid-template-columns:1fr;}}
+.mockup .m-block{background:var(--surface-2); border-radius:12px; padding:16px 18px;}
+.mockup .m-block b{display:block; margin-bottom:6px;}
+
+.final-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:26px 0;}
+@media (max-width:640px){.final-grid{grid-template-columns:1fr;}}
+.final-box{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
+.final-box h4{font-size:.98rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;}
+
+.verdict-final{text-align:center; padding:40px 30px; border-radius:18px; margin:26px 0; background:var(--good-soft); border:2px solid var(--good);}
+.verdict-final .vf-title{font-family:'Fraunces',serif; font-weight:680; font-size:1.6rem; color:var(--ink); margin-bottom:8px;}
+.verdict-final .vf-sub{color:var(--ink-muted); font-size:.95rem; max-width:560px; margin:0 auto;}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;}
+  .toc{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:18px 20px;}
+  .hero-block,section{padding:32px 22px;}
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640;9..144,720&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<div class="layout">
+<nav class="toc" id="toc">
+  <div class="toc-brand">Positionnement</div>
+  <div class="toc-sub">Homepage Daylindo</div>
+  <ol>
+    <li><a href="#verdict">Verdict global</a></li>
+    <li><a href="#tableau">Tableau comparatif</a></li>
+    <li><a href="#test5s">Test des 5 secondes</a></li>
+    <li><a href="#h1">Analyse du H1</a></li>
+    <li><a href="#h1desc">Couple H1 + description</a></li>
+    <li><a href="#positionnement">Question de positionnement</a></li>
+    <li><a href="#valeur">Proposition de valeur</a></li>
+    <li><a href="#sections">Section par section</a></li>
+    <li><a href="#ameliore">Ce qui est amélioré</a></li>
+    <li><a href="#perdu">Ce qui est perdu</a></li>
+    <li><a href="#cibles">Analyse des cibles</a></li>
+    <li><a href="#diff">Test de différenciation</a></li>
+    <li><a href="#concurrence">Analyse concurrentielle</a></li>
+    <li><a href="#seo">Audit SEO</a></li>
+    <li><a href="#geo">Audit GEO</a></li>
+    <li><a href="#ajustements">Ajustements possibles</a></li>
+    <li><a href="#explorer">Explorer le positionnement</a></li>
+    <li><a href="#propositions">Propositions de formulations</a></li>
+    <li><a href="#autres">Ajustements — autres sections</a></li>
+    <li><a href="#tester">Version à tester</a></li>
+    <li><a href="#synthese">Synthèse pour l'équipe</a></li>
+    <li><a href="#final">Verdict final</a></li>
+  </ol>
+</nav>
+
+<main>
+<div class="hero-block">
+  <div class="eyebrow">Daylindo · Audit comparatif</div>
+  <h1>La nouvelle homepage explique-t-elle mieux les deux valeurs de Daylindo ?</h1>
+  <p class="dek">Comparaison objective entre la homepage actuelle (<span class="pill pill-a">Version A</span>) et la nouvelle proposition (<span class="pill pill-b">Version B</span>), fondée uniquement sur leur contenu visible, l'expérience utilisateur, le SEO, le GEO et une analyse concurrentielle sourcée.</p>
+</div>
+
+<section id="verdict">
+  <span class="sec-num">01 — Verdict global</span>
+  <h2>Verdict global</h2>
+  <div class="verdict-grid">
+    <div class="score-card a"><div class="label">Homepage actuelle</div><div class="num">50<small>/100</small></div><div class="bar a"><span style="width:50%"></span></div></div>
+    <div class="score-card b"><div class="label">Nouvelle homepage</div><div class="num">75<small>/100</small></div><div class="bar b"><span style="width:75%"></span></div></div>
+    <div class="score-card delta"><div class="label">Évolution</div><div class="num">+25</div></div>
+  </div>
+  <div class="verdict-banner">
+    <div class="icon">🟢</div>
+    <div><strong>AMÉLIORATION RÉELLE</strong><span>Le fond, la structure et la couverture sémantique progressent nettement ; quelques réglages de positionnement restent à affiner.</span></div>
+  </div>
+  <ul class="clean">
+    <li>Le nouveau H1 est le premier à nommer explicitement les deux dimensions de valeur de Daylindo : savoir qui sait faire quoi, et développer ce qui manque au poste de travail.</li>
+    <li>Une FAQ complète répond pour la première fois aux questions de définition, de catégorie et de différenciation qui restaient sans réponse claire.</li>
+    <li>Une segmentation par persona remplace des tags génériques et adresse chaque fonction (DRH, formation, manager terrain, direction) directement.</li>
+    <li>Le parcours de page suit un ordre plus logique : le problème est montré avant la solution, les preuves avant le CTA final.</li>
+    <li>La première moitié du nouveau H1 (« savoir qui sait faire quoi ») recoupe fortement le positionnement déjà occupé par un acteur du marché centré sur le suivi des compétences — un point de vigilance plutôt qu'un défaut rédhibitoire (voir sections 12 et 13).</li>
+    <li>Le mot « transmission », pourtant central dans l'offre réelle de Daylindo, a disparu du haut de page dans la nouvelle version.</li>
+    <li>Le bénéfice reste formulé en mécanisme (identifier, développer) plutôt qu'en résultat chiffré pour le client, dans les deux versions.</li>
+  </ul>
+</section>
+
+<section id="tableau">
+  <span class="sec-num">02 — Tableau comparatif global</span>
+  <h2>Tableau comparatif global</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Critère</th><th class="num">Actuelle</th><th class="num">Nouvelle</th><th class="num">Évolution</th><th>Pourquoi</th></tr>
+    <tr><td>Compréhension immédiate</td><td class="num">5</td><td class="num">8</td><td class="num scoreup">+3</td><td>Le kicker (« Plateforme de gestion et de développement des compétences opérationnelles ») et le H1 se complètent pour dire immédiatement ce qu'est Daylindo.</td></tr>
+    <tr><td>Compréhension de Daylindo</td><td class="num">4</td><td class="num">8</td><td class="num scoreup">+4</td><td>La FAQ (Q1-Q2) définit Daylindo et sa catégorie explicitement ; l'actuelle ne le fait jamais frontalement.</td></tr>
+    <tr><td>Compréhension de la cible</td><td class="num">5</td><td class="num">8</td><td class="num scoreup">+3</td><td>4 personas dédiés vs simples tags sectoriels.</td></tr>
+    <tr><td>Proposition de valeur</td><td class="num">5</td><td class="num">8</td><td class="num scoreup">+3</td><td>Le H1 couvre les deux dimensions (visibilité + développement) pour la première fois.</td></tr>
+    <tr><td>Clarté du bénéfice</td><td class="num">4</td><td class="num">7</td><td class="num scoreup">+3</td><td>« Développez ce qui manque, au poste » est concret ; aucun résultat chiffré dans les deux versions.</td></tr>
+    <tr><td>Orientation client</td><td class="num">5</td><td class="num">8</td><td class="num scoreup">+3</td><td>Verbes à l'impératif adressés au lecteur (« Sachez », « Développez ») contre une formule impersonnelle en actuelle.</td></tr>
+    <tr><td>Différenciation</td><td class="num">5</td><td class="num">8</td><td class="num scoreup">+3</td><td>Le récit « Jean technicien niveau 3 » rend le mécanisme de preuve mémorisable.</td></tr>
+    <tr><td>Crédibilité</td><td class="num">5</td><td class="num">7</td><td class="num scoreup">+2</td><td>Résultats chiffrés et partenariat sourcé en nouvelle version, absents de l'actuelle.</td></tr>
+    <tr><td>Preuves</td><td class="num">4</td><td class="num">7</td><td class="num scoreup">+3</td><td>Résultats quantifiés + partenariat en nouvelle version.</td></tr>
+    <tr><td>UX</td><td class="num">6</td><td class="num">7</td><td class="num scoreup">+1</td><td>Parcours plus logique, mais page nettement plus longue.</td></tr>
+    <tr><td>Parcours utilisateur</td><td class="num">6</td><td class="num">7</td><td class="num scoreup">+1</td><td>Problème avant solution, FAQ avant CTA final.</td></tr>
+    <tr><td>Conversion</td><td class="num">6</td><td class="num">6</td><td class="num scoreflat">=</td><td>Segmentation plus fine, mais CTA principal du header plus générique (voir section 16).</td></tr>
+    <tr><td>SEO</td><td class="num">4</td><td class="num">8</td><td class="num scoreup">+4</td><td>Meta title aligné sur le contenu, FAQ, footer à 5 colonnes avec maillage interne réel.</td></tr>
+    <tr><td>GEO</td><td class="num">3</td><td class="num">8</td><td class="num scoreup">+5</td><td>Auto-catégorisation explicite (FAQ Q2) et H1 actionnable facilitent une réponse générative correcte.</td></tr>
+    <tr><td>Lisibilité</td><td class="num">6</td><td class="num">7</td><td class="num scoreup">+1</td><td>Vocabulaire plus expert dans certaines sections (GEPP, AFEST), compensé par un H1/description plus directs.</td></tr>
+  </table></div>
+</section>
+
+<section id="test5s">
+  <span class="sec-num">03 — Test des 5 secondes</span>
+  <h2>Test des 5 secondes</h2>
+  <div class="two-col">
+    <div class="panel a">
+      <div class="kicker">Homepage actuelle</div>
+      <p><b>Ce que le visiteur comprend :</b> qu'il s'agit de compétences en entreprise ; qu'il existe une offre de « diagnostic gratuit ».</p>
+      <p><b>Ce qu'il ne comprend pas :</b> ce que Daylindo fait concrètement (« gestion & transmission... pour que ça compte » ne décrit aucune action) ; pour qui c'est ; quel problème est résolu ; quel bénéfice il obtiendrait.</p>
+    </div>
+    <div class="panel b">
+      <div class="kicker">Nouvelle homepage</div>
+      <p><b>Ce que le visiteur comprend :</b> que Daylindo sert à savoir qui sait faire quoi et à développer les compétences manquantes au poste ; que c'est une plateforme de gestion et développement des compétences (kicker) ; qu'il peut parler à un expert ou tester un kit d'évaluation.</p>
+      <p><b>Ce qu'il ne comprend pas :</b> pour qui précisément (aucun secteur ni fonction nommé avant le scroll) ; quel bénéfice chiffré il peut attendre.</p>
+    </div>
+  </div>
+  <div class="callout info">
+    <h4>Quelle version gagne le test des 5 secondes ?</h4>
+    <p>La nouvelle, nettement. Elle est la seule des deux à répondre correctement à 2 des 5 questions dès le premier écran (qu'est-ce que Daylindo, quel problème/action) contre 1 pour l'actuelle (l'action suivante, via le CTA). Aucune des deux ne répond en 5 secondes à « pour qui » ni à « quel bénéfice précis ».</p>
+  </div>
+</section>
+
+<section id="h1">
+  <span class="sec-num">04 — Analyse du H1</span>
+  <h2>Analyse du H1</h2>
+  <div class="two-col">
+    <div class="panel a">
+      <div class="kicker">Actuelle</div>
+      <h4>« Gestion &amp; transmission des compétences opérationnelles pour que ça compte. »</h4>
+      <ul class="clean">
+        <li><b>Clarté :</b> faible — deux noms abstraits reliés par « &amp; », sans verbe d'action.</li>
+        <li><b>Compréhension immédiate :</b> faible — ne dit ni quoi faire ni pourquoi.</li>
+        <li><b>Promesse :</b> quasi nulle — « pour que ça compte » n'est pas un résultat.</li>
+        <li><b>Bénéfice client :</b> absent du H1 lui-même.</li>
+        <li><b>Vocabulaire :</b> générique du secteur RH/formation.</li>
+        <li><b>Longueur :</b> 10 mots, 1 phrase — correcte.</li>
+        <li><b>Mémorisation :</b> faible, aucune image ni accroche.</li>
+        <li><b>Différenciation :</b> nulle.</li>
+        <li><b>SEO :</b> faible — « gestion des compétences » seul est une requête très générique.</li>
+        <li><b>GEO :</b> faible — ne donne pas de quoi catégoriser Daylindo.</li>
+        <li><b>Potentiel commercial :</b> faible — n'incite pas à l'action.</li>
+      </ul>
+    </div>
+    <div class="panel b">
+      <div class="kicker">Nouvelle</div>
+      <h4>« Sachez qui sait vraiment faire quoi. Développez les compétences qui manquent, directement au poste de travail. »</h4>
+      <ul class="clean">
+        <li><b>Clarté :</b> forte — deux verbes d'action, deux idées distinctes et compréhensibles.</li>
+        <li><b>Compréhension immédiate :</b> forte, renforcée par le kicker au-dessus.</li>
+        <li><b>Promesse :</b> implicite mais concrète — visibilité puis comblement d'écart.</li>
+        <li><b>Bénéfice client :</b> présent mais non chiffré (« au poste de travail » = bénéfice opérationnel, pas un ROI).</li>
+        <li><b>Vocabulaire :</b> direct, à l'impératif, adressé au lecteur.</li>
+        <li><b>Longueur :</b> 18 mots, 2 phrases — long pour un tag H1, dilue le focus mot-clé.</li>
+        <li><b>Mémorisation :</b> meilleure — « qui sait vraiment faire quoi » est plus imagé.</li>
+        <li><b>Différenciation :</b> moyenne — la première phrase recoupe un territoire déjà occupé sur le marché (voir sections 12-13) ; la seconde est plus propre à Daylindo.</li>
+        <li><b>SEO :</b> meilleur ancrage sémantique, mais deux idées dans un seul tag H1 partagent l'autorité du mot-clé.</li>
+        <li><b>GEO :</b> meilleur — nomme une action que la FAQ détaille ensuite.</li>
+        <li><b>Potentiel commercial :</b> meilleur, surtout combiné au kicker qui nomme la catégorie produit.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout info">
+    <h4>Le nouveau H1 permet-il réellement de mieux comprendre Daylindo ?</h4>
+    <p>Oui, avec une réserve. Il devient nettement plus concret et actionnable, et c'est le premier des deux à nommer réellement les deux dimensions de valeur (visibilité et développement). Ce qui manque encore : un résultat chiffré ou un enjeu business (turnover, conformité, risque de perte de savoir-faire) qui donnerait davantage de poids commercial à la promesse, et un second volet un peu plus distinctif que « savoir qui sait faire quoi », formulation proche de celle déjà utilisée par un acteur du marché centré sur le suivi des compétences.</p>
+  </div>
+</section>
+
+<section id="h1desc">
+  <span class="sec-num">05 — Couple H1 + description</span>
+  <h2>Analyse du couple H1 + description</h2>
+  <p class="lede">Question centrale : le H1 porte-t-il une promesse claire, et la description explique-t-elle suffisamment ce que Daylindo fait, pour qui et comment ? Et surtout : le duo permet-il de comprendre les deux dimensions de valeur — visibilité/suivi et développement/transmission ?</p>
+  <div class="tablewrap"><table>
+    <tr><th>Élément de valeur</th><th>Actuelle (H1 + sous-titre)</th><th>Nouvelle (H1 + description)</th></tr>
+    <tr><td><b>A — Visibilité / suivi :</b> qui sait faire quoi</td><td>Absent — le sous-titre parle de « donnée fiable, traçable » (conformité) plutôt que de visibilité des capacités.</td><td>Présent directement — « Sachez qui sait vraiment faire quoi » est la première phrase du H1.</td></tr>
+    <tr><td>Compétences réellement maîtrisées</td><td>Absent</td><td>Présent — « validez la maîtrise en situation réelle » dans la description.</td></tr>
+    <tr><td>Où sont les écarts</td><td>Absent</td><td>Présent — « identifiez les écarts » dans la description.</td></tr>
+    <tr><td>Capacités disponibles dans l'équipe (vue d'ensemble)</td><td>Absent</td><td>Implicite seulement — ni « cartographie » ni « équipe » ne sont nommés dans le duo H1+description (le mot apparaît plus bas, dans les personas).</td></tr>
+    <tr><td><b>B — Développement / transmission</b></td><td>Bien présent — « outille et forme vos formateurs terrain », « déploie les parcours au poste de travail ».</td><td>Partiellement présent — « développez les compétences qui manquent, directement au poste de travail », « organisez les parcours au poste » ; mais le mot « transmettre »/« transmission » n'apparaît plus dans le duo H1+description.</td></tr>
+    <tr><td>Tracer les acquis</td><td>Présent — « enregistre chaque compétence prouvée comme une donnée fiable, traçable ».</td><td>Absent du duo H1+description (repoussé à la section méthode plus bas).</td></tr>
+  </table></div>
+  <p><span class="pill pill-warn">Constat</span> Il ne s'agit pas d'un cas où une version couvre tout et l'autre rien : l'actuelle est plus complète sur le volet B (développement/transmission) dans son H1+sous-titre, tandis que la nouvelle est nettement plus forte sur le volet A (visibilité/suivi). Aucune des deux ne couvre pleinement les deux dimensions dans le seul duo H1+description — ce qui est normal et attendu, à condition que les sections suivantes prennent le relais, ce qu'elles font globalement bien dans les deux cas (méthode, personas, FAQ).</p>
+  <p><span class="pill pill-good">Réponse à la question centrale</span> Le nouveau H1 porte une promesse plus claire que l'actuel. La description explique correctement le « comment » (identifier, organiser, valider) mais ni l'un ni l'autre ne dit « pour qui » dans ce duo — ce point arrive plus tard sur les deux pages, via la preuve sociale puis les personas.</p>
+</section>
+
+<section id="positionnement">
+  <span class="sec-num">06 — Question centrale de positionnement</span>
+  <h2>« Visualiser/suivre » + « développer/transmettre » : une bonne articulation ?</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Critère</th><th>Évaluation</th></tr>
+    <tr><td>Clarté</td><td>Bonne — deux verbes simples, complémentaires, faciles à retenir.</td></tr>
+    <tr><td>Pertinence</td><td>Forte au regard du contenu réel de la page : la démarche en 4 étapes (structurer, outiller, déployer, tracer) correspond presque exactement à ces deux piliers.</td></tr>
+    <tr><td>Différenciation</td><td>Moyenne, et c'est le point de vigilance principal : « visualiser/suivre les compétences » est un territoire déjà largement occupé par un acteur pure-play du suivi de compétences (voir section 13). Le second volet (développer/transmettre au poste, avec preuve terrain) est plus singulier.</td></tr>
+    <tr><td>Cohérence avec l'offre réelle</td><td>Bonne — les deux piliers recoupent fidèlement ce que la page décrit plus bas (méthode, FAQ).</td></tr>
+    <tr><td>Compréhension par un grand groupe (DRH/GEPP)</td><td>Bonne — un DRH pense déjà en cartographie + plan de développement, proche de cette articulation.</td></tr>
+    <tr><td>Compréhension par une entreprise d'intérim</td><td>Moyenne — une agence d'intérim pense d'abord « qui est disponible et qualifié pour cette mission demain » (visibilité opérationnelle immédiate) davantage qu'en développement à moyen terme.</td></tr>
+    <tr><td>Potentiel marketing</td><td>Bon — un message à deux temps se décline facilement, à condition que le premier substantif ne domine pas trop le second.</td></tr>
+    <tr><td>Potentiel SEO</td><td>Bon, si chaque pilier est développé dans une section ou un H2 dédié — deux champs sémantiques distincts et recherchés.</td></tr>
+    <tr><td>Potentiel GEO</td><td>Bon, si les deux capacités sont nommées explicitement quelque part sur la page (c'est déjà le cas dans le H1 de la nouvelle version).</td></tr>
+  </table></div>
+  <div class="callout warn">
+    <h4>Critique de cette articulation</h4>
+    <p>Elle ne doit pas se limiter au mot « visualiser » seul, car cela positionnerait Daylindo comme un outil de reporting RH parmi d'autres — un territoire déjà occupé. Le vrai différenciateur observé sur les deux pages est plus précis que « visualiser » : c'est la <b>preuve</b> (observation terrain, horodatage, opposabilité). Muscler le premier pilier avec cette notion de preuve, plutôt que de le laisser sur la seule idée de visibilité, réduit le risque de ressembler à un acteur de suivi pur.</p>
+  </div>
+</section>
+
+<section id="valeur">
+  <span class="sec-num">07 — Analyse de la proposition de valeur</span>
+  <h2>Analyse de la proposition de valeur</h2>
+  <div class="two-col">
+    <div class="panel a">
+      <div class="kicker">Actuelle</div>
+      <p><b>Qu'est-ce que Daylindo ?</b> Ambigu dans le H1, clarifié seulement dans le sous-titre.</p>
+      <p><b>Pour qui ?</b> Implicite, via des tags dans la section « situations ».</p>
+      <p><b>Quel problème ?</b> Formation interne invisible, savoir-faire critiques menacés, turnover coûteux, hétérogénéité multi-sites.</p>
+      <p><b>Quel résultat ?</b> Une donnée compétence fiable et traçable, exploitable par les systèmes RH.</p>
+      <p><b>Comment ?</b> 4 étapes : structurer, outiller, déployer, tracer.</p>
+      <p><b>Pourquoi Daylindo plutôt qu'un autre outil ?</b> « Pas un outil de plus à déployer seul » — un argument de posture, sans détail du mécanisme différenciant.</p>
+    </div>
+    <div class="panel b">
+      <div class="kicker">Nouvelle</div>
+      <p><b>Qu'est-ce que Daylindo ?</b> Clair dès le kicker et confirmé par le H1.</p>
+      <p><b>Pour qui ?</b> Toujours implicite dans le hero, mais explicité juste après via 4 personas nommés.</p>
+      <p><b>Quel problème ?</b> Identique à l'actuelle, précisé en plus par persona.</p>
+      <p><b>Quel résultat ?</b> Savoir qui sait faire quoi + compétences développées au poste — plus concret que l'actuelle.</p>
+      <p><b>Comment ?</b> Mêmes 4 étapes + FAQ qui détaille le mécanisme d'évaluation et de preuve.</p>
+      <p><b>Pourquoi Daylindo plutôt qu'un autre outil ?</b> Mécanisme concret : compétence supposée/déclarée/inférée (outils classiques) vs observée/évaluée/prouvée (Daylindo), plus une FAQ qui distingue frontalement d'un LMS et d'un SIRH.</p>
+    </div>
+  </div>
+  <p><span class="pill pill-good">Comparaison</span> La nouvelle version répond de façon plus complète et plus tôt à 5 des 6 questions. Le « pour qui » reste, dans les deux cas, absent du tout premier écran et repoussé plus bas dans la page.</p>
+</section>
+
+<section id="sections">
+  <span class="sec-num">08 — Comparaison section par section</span>
+  <h2>Comparaison section par section</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Section</th><th>Actuelle</th><th>Nouvelle</th><th>Meilleure</th></tr>
+    <tr><td>Header</td><td>Nav + CTA « Diagnostic gratuit » + badge Qualiopi simple</td><td>Nav identique + badge enrichi (OPCO) + CTA « Parler à un expert »</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Hero</td><td>H1 abstrait + sous-titre dense</td><td>Kicker + H1 actionnable + description courte</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>H1</td><td>Abstrait, sans verbe d'action</td><td>Actionnable, couvre les deux dimensions de valeur</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>Description</td><td>Longue, dense, porte l'essentiel de l'info</td><td>Courte, actionnable, mais recoupe partiellement le H1</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>CTA (hero)</td><td>« Faire le diagnostic gratuit » (offre nommée, gratuite) / « Voir la plateforme »</td><td>« Parler à un expert » (générique) / « Voir nos kits d'évaluation » (lead magnet immédiat)</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Présentation de la solution / démarche</td><td>4 étapes claires</td><td>4 étapes identiques, H2 reformulé</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Présentation de la plateforme</td><td>Aucune image ou capture visible dans le texte</td><td>Idem — aucune image ou capture visible dans le texte</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Auto-évaluation</td><td>Mentionnée seulement en nav (« Kit d'évaluation »)</td><td>Mise en avant dès le hero (« Voir nos kits d'évaluation », accessible immédiatement)</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>Chiffres</td><td>4 chiffres, 2 sans unité claire (50%, 40%)</td><td>3 chiffres clairs mais moins orientés résultat client (5 ans de R&amp;D)</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Douleurs / situations</td><td>6 situations</td><td>Contenu identique, mieux positionné dans le parcours (avant la solution)</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>Démarche</td><td>4 étapes</td><td>4 étapes identiques</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Pour qui</td><td>Absente comme section dédiée</td><td>4 personas complets (problème/besoin/apport + CTA)</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>Différenciation</td><td>3 affirmations courtes, nommant explicitement « LMS » et « Talent »</td><td>Récit « Jean technicien niveau 3 », plus riche mais sans nommer LMS/SIRH à cet endroit précis</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Comparatif</td><td>Bullets courts</td><td>Triptyque supposée/déclarée/inférée vs observée/évaluée/prouvée</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>Témoignages</td><td>1 témoignage attribué (Orange)</td><td>Identique, mot pour mot</td><td class="pill pill-warn">🟠 Équivalent</td></tr>
+    <tr><td>Preuves</td><td>Témoignage + logos seulement</td><td>+ résultats chiffrés + partenariat sourcé</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>FAQ</td><td>Absente</td><td>10 questions</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>CTA final</td><td>« Planifier le diagnostic » / « Voir les résultats »</td><td>« Planifier mon diagnostic — 30 min » / « Télécharger la matrice »</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+    <tr><td>Footer</td><td>2 colonnes</td><td>5 colonnes avec maillage interne réel</td><td class="pill pill-good">🟢 Amélioration</td></tr>
+  </table></div>
+</section>
+
+<section id="ameliore">
+  <span class="sec-num">09 — Ce que la nouvelle homepage améliore</span>
+  <h2>Ce que la nouvelle homepage améliore</h2>
+  <div class="impact-block fort">
+    <h4>🟢 Impact fort</h4>
+    <ul class="clean">
+      <li><b>Un H1 qui nomme les deux dimensions de valeur.</b> Pour la première fois, « savoir qui sait faire quoi » et « développer ce qui manque au poste » apparaissent explicitement, en une phrase, dès le premier écran.</li>
+      <li><b>Une FAQ complète.</b> 10 questions couvrant définition, catégorie, différenciation LMS/SIRH, financement, délai — inexistantes sur l'actuelle.</li>
+      <li><b>Une catégorisation explicite de Daylindo</b> (« Operational Skills Management », FAQ Q2), absente de l'actuelle et déterminante pour le SEO comme pour le GEO.</li>
+      <li><b>Une segmentation par persona</b> (4 cartes Problème/Besoin/Apport) qui remplace de simples tags sectoriels.</li>
+    </ul>
+  </div>
+  <div class="impact-block moyen">
+    <h4>🟠 Impact moyen</h4>
+    <ul class="clean">
+      <li><b>Un mécanisme de différenciation concret</b> (« Jean technicien niveau 3 ») plus mémorisable que les affirmations génériques de l'actuelle.</li>
+      <li><b>Une preuve enrichie</b> : résultats chiffrés et partenariat sourcé, en plus du témoignage déjà présent.</li>
+      <li><b>Un parcours mieux ordonné</b> : problème avant solution, ce qui n'était pas le cas sur l'actuelle.</li>
+      <li><b>Un maillage interne réel</b> dans le footer (5 colonnes contre 2).</li>
+    </ul>
+  </div>
+  <div class="impact-block faible">
+    <h4>⚪ Impact faible</h4>
+    <ul class="clean">
+      <li>Reformulation du H2 de la méthode (« jusqu'à votre SIRH ») — ajoute une association sémantique utile.</li>
+      <li>CTA final avec durée annoncée (« 30 min ») — réduit légèrement la friction perçue.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="perdu">
+  <span class="sec-num">10 — Ce qui est perdu ou moins bon</span>
+  <h2>Ce qui est perdu ou moins bon</h2>
+  <p class="lede">Recherche volontaire de ce que l'actuelle fait mieux, même si la nouvelle est globalement supérieure.</p>
+  <ul class="clean">
+    <li><b>Un CTA principal plus engageant en tête de page.</b> L'actuelle affiche « Diagnostic gratuit » dans le menu et le hero — une offre nommée, gratuite, à faible friction. La nouvelle le remplace par « Parler à un expert », plus générique et qui ressemble davantage à une prise de contact commerciale.</li>
+    <li><b>Une comparaison directe et nommée avec un LMS/SIRH, au bon endroit du parcours.</b> L'actuelle nomme frontalement « LMS » et « plateforme Talent » dans sa section de différenciation. La nouvelle déplace cette comparaison explicite vers la FAQ, plus bas ; un lecteur qui s'arrête à la section différenciation sans aller jusqu'à la FAQ perd cette réponse directe.</li>
+    <li><b>Le mot « transmission ».</b> Présent dans le H1 de l'actuelle, il disparaît du haut de page de la nouvelle version, alors que la transmission terrain (tuteurs, compagnonnage) reste un pilier réel de l'offre.</li>
+    <li><b>Le potentiel persuasif des chiffres d'origine.</b> « 50% turnover précoce » et « 40% temps d'intégration », bien que mal labellisés, suggèrent des gains de résultat client. La nouvelle les remplace par des métriques moins orientées bénéfice (ancienneté de l'entreprise plutôt que résultat client).</li>
+  </ul>
+  <p>Aucune perte majeure au-delà de ces quatre points : l'essentiel du contenu de l'actuelle est repris à l'identique ou enrichi dans la nouvelle version.</p>
+</section>
+
+<section id="cibles">
+  <span class="sec-num">11 — Analyse des cibles</span>
+  <h2>Analyse des cibles</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Profil</th><th>Actuelle</th><th>Nouvelle</th><th>Plus pertinente</th><th>Pourquoi</th></tr>
+    <tr><td>DRH</td><td>Compréhension partielle (tag GPEC)</td><td>Persona dédié + FAQ GEPP/SIRH</td><td class="pill pill-b">Nouvelle</td><td>Contenu spécifique à sa fonction plutôt qu'un simple tag.</td></tr>
+    <tr><td>Responsable Formation / L&amp;D</td><td>Partielle</td><td>Persona 2 + FAQ AFEST/Qualiopi</td><td class="pill pill-b">Nouvelle</td><td>Traite ses objections métier précises.</td></tr>
+    <tr><td>Responsable Compétences</td><td>Faible — vocabulaire de catégorie absent</td><td>Meilleure — « Skills Management », « Operational Skills Management » nommés</td><td class="pill pill-b">Nouvelle</td><td>Un spécialiste reconnaît immédiatement sa catégorie métier.</td></tr>
+    <tr><td>Direction opérationnelle</td><td>Faible — effleurée via « savoir-faire critiques »</td><td>Légèrement meilleure — persona 4 partiellement pertinente</td><td class="pill pill-b">Nouvelle (léger)</td><td>Aucune des deux ne lui parle vraiment directement.</td></tr>
+    <tr><td>Manager terrain</td><td>Faible — tags seulement</td><td>Persona 3 dédié (cartographie, intégration)</td><td class="pill pill-b">Nouvelle</td><td>Une section entière lui est consacrée.</td></tr>
+    <tr><td>Entreprise d'intérim</td><td>Moyenne — tags identiques</td><td>Légèrement meilleure — le H1 (« savoir qui sait faire quoi ») résonne avec la logique de staffing</td><td class="pill pill-b">Nouvelle (léger)</td><td>Le H1 parle directement à la logique de disponibilité/qualification immédiate.</td></tr>
+    <tr><td>Industrie</td><td>Moyenne — tags identiques</td><td>Légèrement meilleure — FAQ Q9 renforce le secteur</td><td class="pill pill-b">Nouvelle (léger)</td><td>Contenu identique, renforcement en FAQ côté nouvelle.</td></tr>
+    <tr><td>Retail</td><td>Moyenne</td><td>Légèrement meilleure</td><td class="pill pill-b">Nouvelle (léger)</td><td>Idem.</td></tr>
+    <tr><td>Grande entreprise multisite</td><td>Moyenne — situation « réseaux multi-sites » identique</td><td>Meilleure — persona DRH grands comptes ajoute de la pertinence</td><td class="pill pill-b">Nouvelle</td><td>Persona 1 cible explicitement les grands comptes.</td></tr>
+  </table></div>
+</section>
+
+<section id="diff">
+  <span class="sec-num">12 — Test de différenciation</span>
+  <h2>Test de différenciation par catégorie</h2>
+  <p class="lede">Comparaison de Daylindo aux catégories suivantes : Skill Management, Skill Tracking, LMS, SIRH, Learning Platform, e-learning, Talent Management, formation classique, Frontline Training.</p>
+  <h3>Ce qui est générique</h3>
+  <ul class="clean">
+    <li>Le vocabulaire général (« plateforme », « parcours », « référentiels ») est commun à tout le secteur Skill/Talent Management, dans les deux versions.</li>
+    <li>La première moitié du H1 de la nouvelle version (« Sachez qui sait vraiment faire quoi ») est un territoire de positionnement quasi identique à celui déjà occupé par un acteur pure-play du suivi de compétences (voir section 13).</li>
+    <li>Ni l'actuelle ni la nouvelle ne se positionnent explicitement comme « Frontline Training », alors que leur contenu (formation au poste, terrain, mobile) correspond exactement à cette catégorie occupée par d'autres acteurs.</li>
+  </ul>
+  <h3>Ce qui est réellement différenciant</h3>
+  <ul class="clean">
+    <li>Le mécanisme de preuve terrain (observée/évaluée/prouvée, présent uniquement dans la nouvelle version) — absent des catégories citées, qui parlent de données déclarées, de complétion de modules ou de scores d'engagement, jamais de preuve terrain horodatée et opposable.</li>
+    <li>L'ancrage réglementaire français (Qualiopi, AFEST, OPCO) — un terrain quasi inoccupé par les acteurs internationaux analysés.</li>
+    <li>L'auto-catégorisation explicite en FAQ (« Operational Skills Management ») — une précision qu'aucun des acteurs analysés ne formule aussi clairement pour lui-même.</li>
+  </ul>
+  <div class="callout info">
+    <h4>La nouvelle homepage permet-elle de comprendre clairement ce qui distingue Daylindo ?</h4>
+    <p>Oui, mais surtout pour un lecteur qui va jusqu'à la FAQ ou à la section différenciation. Dans le H1 seul, la première moitié du message reste le point le plus générique et le plus proche du marché existant.</p>
+  </div>
+</section>
+
+<section id="concurrence">
+  <span class="sec-num">13 — Analyse concurrentielle</span>
+  <h2>Analyse concurrentielle</h2>
+  <p class="lede">Homepages visitées le 24 août 2026. Aucune formulation n'est reprise ; l'objectif est d'identifier les territoires de communication déjà occupés.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Acteur</th><th>H1 / promesse</th><th>Catégorie affichée</th><th>Approche compétences</th></tr>
+    <tr><td>AG5</td><td>« Always know who's qualified. For every role, shift and site. »</td><td>Skills management / training matrix / skills tracking software</td><td>Visibilité/suivi dominant ; développement peu présent.</td></tr>
+    <tr><td>360Learning</td><td>« The AI-driven LMS built to drive proprietary expertise »</td><td>LMS (learning management system)</td><td>Développement/formation dominant ; les compétences sont une fonctionnalité, pas l'identité centrale.</td></tr>
+    <tr><td>Degreed</td><td>« AI-Powered Learning Built for Always-On Change »</td><td>Learning / upskilling platform</td><td>Combine visibilité (données de compétences calibrées) et développement (upskilling personnalisé par IA).</td></tr>
+    <tr><td>Cornerstone</td><td>« Grow human potential exponentially »</td><td>Suite de Talent/Skills intelligence</td><td>Combine insights compétences, développement et agents IA à l'échelle entreprise.</td></tr>
+    <tr><td>Axonify</td><td>« Close the gap between learning and execution. »</td><td>Frontline Enablement Platform</td><td>Développement/exécution terrain via microlearning, mesure d'impact business.</td></tr>
+  </table></div>
+  <p><span class="pill pill-warn">Territoires déjà occupés</span> Visibilité pure des compétences (AG5) ; développement par IA à grande échelle (Degreed, Cornerstone, 360Learning) ; exécution terrain par microlearning (Axonify).</p>
+  <p><span class="pill pill-good">Où Daylindo peut être plus différenciant</span> Aucun de ces cinq acteurs ne revendique la preuve observée en situation réelle et horodatée comme mécanisme central, ni l'ancrage réglementaire français (Qualiopi, AFEST, OPCO) — une charge de preuve propre à un acheteur français de formation professionnelle, absente de tous les positionnements analysés.</p>
+  <p style="font-size:.85rem; color:var(--ink-muted);">Sources : <a href="https://www.ag5.com/" target="_blank" rel="noopener">ag5.com</a> · <a href="https://360learning.com/" target="_blank" rel="noopener">360learning.com</a> · <a href="https://degreed.com/experience/" target="_blank" rel="noopener">degreed.com/experience</a> · <a href="https://www.cornerstoneondemand.com/" target="_blank" rel="noopener">cornerstoneondemand.com</a> · <a href="https://axonify.com/" target="_blank" rel="noopener">axonify.com</a></p>
+</section>
+
+<section id="seo">
+  <span class="sec-num">14 — Audit SEO</span>
+  <h2>Audit SEO</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Élément SEO</th><th>Actuelle</th><th>Nouvelle</th><th>Amélioration ?</th><th>Suggestion</th></tr>
+    <tr><td>H1</td><td>Abstrait, aucun mot-clé probable</td><td>Contient des verbes d'action et « poste de travail »</td><td class="pill pill-good">Oui</td><td>Envisager un H1 en une seule phrase pour concentrer le poids sémantique du tag.</td></tr>
+    <tr><td>H2 / architecture</td><td>5 H2 génériques</td><td>+ « Questions fréquentes », « Conçu pour les entreprises qui ont des équipes sur le terrain »</td><td class="pill pill-good">Oui</td><td>Ajouter un H2 nommant explicitement « suivi des compétences » et un autre « développement des compétences ».</td></tr>
+    <tr><td>Intention de recherche</td><td>Ton corporate, peu aligné sur une requête</td><td>FAQ répond à des requêtes informationnelles réelles</td><td class="pill pill-good">Oui</td><td>Ajouter une question FAQ sur la visualisation des compétences disponibles (absente des deux versions, voir section 15).</td></tr>
+    <tr><td>Champ sémantique « gestion des compétences »</td><td>Présent en nav uniquement</td><td>Présent dans le meta title, la FAQ et le footer</td><td class="pill pill-good">Oui</td><td>Réutiliser l'expression du meta title dans un H2 pour renforcer la cohérence terminologique.</td></tr>
+    <tr><td>Suivi des compétences</td><td>Absent tel quel (utilise « traçabilité »)</td><td>Absent tel quel également</td><td class="pill pill-warn">Non</td><td>Ajouter l'expression exacte « suivi des compétences » quelque part sur la page — requête probable non captée.</td></tr>
+    <tr><td>Compétences réellement maîtrisées</td><td>Absent</td><td>Présent (description hero + FAQ)</td><td class="pill pill-good">Oui</td><td>Aucune, déjà bien traité.</td></tr>
+    <tr><td>Développement des compétences</td><td>Absent du H1, implicite ailleurs</td><td>Présent dans le meta title ; le verbe « développer » est dans le H1</td><td class="pill pill-good">Oui</td><td>Aucune, déjà bien traité.</td></tr>
+    <tr><td>Transmission des compétences</td><td>Présent dans le H1 et en nav</td><td>Présent en nav seulement — absent du hero</td><td class="pill pill-bad">Non</td><td>Réintroduire « transmettre »/« transmission » dans la description sous le H1.</td></tr>
+    <tr><td>Formation au poste</td><td>Présent dans la démarche</td><td>Identique</td><td class="pill pill-warn">Égal</td><td>Aucune.</td></tr>
+    <tr><td>Tutorat</td><td>Présent dans la démarche</td><td>Identique + FAQ</td><td class="pill pill-good">Oui (renforcé)</td><td>Aucune.</td></tr>
+    <tr><td>AFEST</td><td>Cité en nav uniquement</td><td>Nav + FAQ dédiée, conformité Qualiopi détaillée</td><td class="pill pill-good">Oui</td><td>Aucune, déjà bien traité.</td></tr>
+    <tr><td>Évaluation</td><td>Implicite</td><td>FAQ détaille le processus</td><td class="pill pill-good">Oui</td><td>Aucune.</td></tr>
+    <tr><td>Traçabilité</td><td>Présent (« traçable »)</td><td>Renforcé par la FAQ (horodatage, preuve opposable)</td><td class="pill pill-good">Oui (renforcé)</td><td>Aucune.</td></tr>
+    <tr><td>Cartographie des compétences</td><td>Présent en nav</td><td>Présent en nav et footer + persona Manager terrain</td><td class="pill pill-good">Oui (renforcé)</td><td>Aucune.</td></tr>
+    <tr><td>FAQ</td><td>Absente</td><td>10 questions</td><td class="pill pill-good">Oui</td><td>Vérifier l'implémentation d'un balisage structuré de type FAQ pour maximiser la visibilité dans les résultats de recherche.</td></tr>
+    <tr><td>Maillage interne</td><td>Footer à 2 colonnes</td><td>Footer à 5 colonnes avec liens vers solutions, guides, preuves</td><td class="pill pill-good">Oui</td><td>Ajouter aussi des liens contextuels dans le corps du texte, pas seulement en nav/footer.</td></tr>
+    <tr><td>Contenu utile</td><td>Volume de texte plus faible, plus corporate</td><td>Volume net supérieur (personas + FAQ + preuves détaillées)</td><td class="pill pill-good">Oui</td><td>Aucune.</td></tr>
+  </table></div>
+</section>
+
+<section id="geo">
+  <span class="sec-num">15 — Audit GEO / visibilité IA</span>
+  <h2>Audit GEO / visibilité IA</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Question testée</th><th>Réponse à partir de l'actuelle</th><th>Réponse à partir de la nouvelle</th></tr>
+    <tr><td>Qu'est-ce que Daylindo ?</td><td>Réponse floue, catégorie non nommée.</td><td>Réponse quasi verbatim (kicker + FAQ Q1).</td></tr>
+    <tr><td>Quelle solution permet de suivre les compétences réellement maîtrisées ?</td><td>Pas de réponse directe (le mot « maîtrisées » n'apparaît pas).</td><td>Réponse forte — « validez la maîtrise en situation réelle » et « compétences maîtrisées » (persona Manager terrain).</td></tr>
+    <tr><td>Comment visualiser les compétences disponibles dans une équipe ?</td><td>Absent — ni « visualiser » ni « disponibles » ne sont utilisés.</td><td>Partiellement — « cartographie » répond au besoin, mais le mot « visualiser » n'apparaît pas non plus. Lacune commune aux deux versions.</td></tr>
+    <tr><td>Comment identifier les écarts de compétences ?</td><td>Absent frontalement.</td><td>Réponse directe — « identifiez les écarts » est textuellement dans la description du hero.</td></tr>
+    <tr><td>Comment développer rapidement les compétences nécessaires au poste ?</td><td>Implicite (démarche), sans le mot « rapidement ».</td><td>« Développez les compétences qui manquent, directement au poste » répond bien à la partie développement/poste, mais sans le mot « rapidement » non plus. Lacune commune.</td></tr>
+    <tr><td>Comment transmettre les compétences sur le terrain ?</td><td>Réponse correcte — « outille et forme vos formateurs terrain ».</td><td>Absent du hero ; réponse disponible plus bas, en FAQ Q7.</td></tr>
+    <tr><td>Quelle solution combine gestion des compétences et développement des compétences ?</td><td>Le H1 dit « gestion &amp; transmission » mais pas « développement ».</td><td>Réponse quasi verbatim — le meta title dit exactement « Gestion et développement des compétences opérationnelles ».</td></tr>
+    <tr><td>Quelle différence entre Daylindo et un LMS ?</td><td>Une phrase courte.</td><td>Réponse complète et citable (FAQ Q3).</td></tr>
+    <tr><td>Quelle différence entre Daylindo et un outil de Skill Management ?</td><td>Impossible à formuler — la catégorie n'est pas nommée.</td><td>Formulable — Daylindo se positionne comme une sous-catégorie du Skills Management, distinguée par la preuve terrain (FAQ Q2).</td></tr>
+  </table></div>
+  <div class="callout info">
+    <h4>Conclusion</h4>
+    <p>La nouvelle version fournit des réponses nettement plus complètes à 7 des 9 questions testées. Deux lacunes restent communes aux deux versions : la visualisation des compétences disponibles dans une équipe, et la notion de rapidité du développement — deux pistes d'amélioration valables indépendamment du choix entre les deux pages.</p>
+  </div>
+</section>
+
+<section id="ajustements">
+  <span class="sec-num">16 — Ajustements possibles</span>
+  <h2>Identifier les ajustements possibles</h2>
+  <p class="lede">Ajustements ponctuels sur la nouvelle homepage — pas une refonte.</p>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-important">🔴 Important</span> Renforcer la notion de preuve dans le H1</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>« Sachez qui sait vraiment faire quoi » ouvre le H1 sur une promesse de visibilité pure.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Ce territoire est déjà occupé par un acteur du marché centré sur le suivi des compétences (voir section 13).</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Associer cette première phrase à la notion de preuve plutôt qu'à la seule connaissance/visibilité.</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>C'est le mécanisme de preuve terrain, pas la visibilité seule, qui distingue réellement Daylindo.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Différenciation plus nette dès le H1, sans changer la structure en deux temps qui fonctionne bien.</span></div>
+  </div>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-important">🔴 Important</span> Vérifier l'orthographe d'un nom de client</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>Le nom d'un client affiché en preuve sociale présente une variante d'orthographe différente selon la page.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Une incohérence de nom de client nuit à la crédibilité perçue.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Vérifier l'orthographe exacte et l'harmoniser entre les deux pages.</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>La précision des preuves sociales est un facteur de confiance direct.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Preuve sociale fiable à 100%.</span></div>
+  </div>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-envisager">🟠 À envisager</span> Réintroduire « transmission »</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>Le mot « transmission »/« transmettre » n'apparaît plus dans le hero de la nouvelle page.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Une des deux dimensions de valeur historiquement mise en avant n'est plus visible avant le scroll.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Ajouter une mention de « transmission » dans la description sous le H1, aux côtés de « développez ».</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>La transmission terrain (tuteurs, compagnonnage) est un pilier de la méthode et un champ sémantique déjà bien construit.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Cohérence terminologique renforcée entre hero, méthode et FAQ.</span></div>
+  </div>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-envisager">🟠 À envisager</span> Aligner le CTA principal du header/hero</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>« Parler à un expert » est le CTA le plus visible, présent sur chaque écran au scroll.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Pour un visiteur qui découvre Daylindo, une demande de contact humain est un engagement plus élevé qu'une offre nommée et gratuite.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Tester un CTA principal reprenant l'offre « diagnostic gratuit », en gardant « parler à un expert » en option secondaire.</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>Une offre concrète et gratuite réduit la friction pour un visiteur froid.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Probable amélioration du taux de clic sur le CTA principal pour les nouveaux visiteurs.</span></div>
+  </div>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-envisager">🟠 À envisager</span> Nommer LMS/SIRH dans la section différenciation</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>La section « Ce que Daylindo est, et ce qu'il n'est pas » ne nomme plus « LMS » ni « SIRH » explicitement ; ces comparaisons n'apparaissent qu'en FAQ.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Un lecteur qui s'arrête à cette section sans aller jusqu'à la FAQ perd la réponse directe.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Ajouter une ligne courte nommant explicitement « LMS » et « SIRH », en complément du récit « Jean », sans le retirer.</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>Certains lecteurs pressés veulent une réponse binaire immédiate avant de s'engager dans un récit plus long.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Clarté immédiate préservée pour les lecteurs pressés, sans perdre la force narrative pour les autres.</span></div>
+  </div>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-envisager">🟠 À envisager</span> Afficher un résultat client chiffré</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>Les chiffres affichés (formations, collaborateurs, années de R&amp;D) ne sont pas rattachés à un bénéfice client mesurable.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Un chiffre d'ancienneté ne parle pas du résultat obtenu par le client.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Si des données de résultat client fiables existent (réduction du temps d'intégration, du turnover), les afficher clairement avec leur unité et leur contexte.</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>Un chiffre de résultat client est un argument de conversion plus fort qu'un chiffre d'ancienneté d'entreprise.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Renforcement de la preuve et de la promesse de résultat.</span></div>
+  </div>
+
+  <div class="mod-card">
+    <h4><span class="p-badge p-optionnel">🟢 Optionnel</span> Ajouter une preuve visuelle</h4>
+    <div class="mod-row"><b>Élément actuel</b><span>Aucune image ni capture d'écran de la plateforme n'est visible dans le texte des deux pages.</span></div>
+    <div class="mod-row"><b>Problème</b><span>Le bénéfice « voir les capacités de ses équipes » reste abstrait, sans preuve visuelle.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Ajouter une illustration de la cartographie/matrice de compétences dans la section méthode ou preuve.</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>Un bénéfice de visibilité se démontre plus efficacement par une image que par du texte seul.</span></div>
+    <div class="mod-row"><b>Impact attendu</b><span>Renforcement de la crédibilité et de la compréhension du bénéfice de visibilité.</span></div>
+  </div>
+</section>
+
+<section id="explorer">
+  <span class="sec-num">17 — Explorer le positionnement</span>
+  <h2>Explorer le positionnement</h2>
+  <p class="lede">Cinq manières d'articuler « visibilité/suivi » et « développement/transmission » — testées et critiquées, pas recommandées automatiquement.</p>
+  <div class="option-grid">
+    <div class="option-card">
+      <div class="opt-label">Option A — H1 promesse, description porte les deux dimensions</div>
+      <div class="opt-formula">H1 : « Sécurisez les savoir-faire de vos équipes terrain. »<br>Description : « Cartographiez ce que vos collaborateurs savent réellement faire, et développez au poste ce qui leur manque encore. »</div>
+      <dl><dt>Avantage</dt><dd>H1 court et fort, orienté résultat/risque.</dd><dt>Inconvénient</dt><dd>Les deux dimensions ne sont explicites que dans la description.</dd><dt>Cible</dt><dd>Direction/DRH sensibles au risque de perte de savoir-faire.</dd><dt>Différenciation</dt><dd>Bonne — « sécuriser » est peu utilisé par les acteurs analysés.</dd><dt>SEO</dt><dd>Moyen — requête plus rare que « gestion des compétences ».</dd><dt>GEO</dt><dd>Moyen — nécessite que la description soit bien restituée.</dd></dl>
+    </div>
+    <div class="option-card">
+      <div class="opt-label">Option B — H1 exprime les deux bénéfices</div>
+      <div class="opt-formula">« Voyez qui sait faire quoi. Développez ce qui manque, au poste. »</div>
+      <dl><dt>Avantage</dt><dd>Resserre la logique déjà présente sur la nouvelle page, en plus court.</dd><dt>Inconvénient</dt><dd>Reste proche du territoire « visibilité » déjà occupé sur sa première moitié.</dd><dt>Cible</dt><dd>Profils opérationnels (managers terrain, intérim).</dd><dt>Différenciation</dt><dd>Moyenne, sauf si la seconde moitié est renforcée.</dd><dt>SEO</dt><dd>Bon — deux champs lexicaux dans un seul tag.</dd><dt>GEO</dt><dd>Bon — une IA peut restituer les deux capacités depuis le H1 seul.</dd></dl>
+    </div>
+    <div class="option-card">
+      <div class="opt-label">Option C — H1 résultat, section suivante explique les deux dimensions</div>
+      <div class="opt-formula">H1 : « Des compétences qu'on peut enfin prouver — et développer là où ça compte. »<br>Puis deux blocs : « Visibilité » et « Développement ».</div>
+      <dl><dt>Avantage</dt><dd>H1 centré sur le bénéfice différenciant ; les deux dimensions développées juste après, de façon scannable.</dd><dt>Inconvénient</dt><dd>H1 plus long et plus abstrait à la première lecture.</dd><dt>Cible</dt><dd>DRH / responsables formation, sensibles à la notion de preuve.</dd><dt>Différenciation</dt><dd>Forte — « prouver » est le terme le plus singulier de l'audit concurrentiel.</dd><dt>SEO</dt><dd>Bon si chaque bloc porte un H2 dédié.</dd><dt>GEO</dt><dd>Bon — structure claire, facile à restituer.</dd></dl>
+    </div>
+    <div class="option-card">
+      <div class="opt-label">Option D — H1 simple, deux bénéfices sous le hero</div>
+      <div class="opt-formula">H1 : « La compétence terrain, enfin visible et développée. »<br>Sous le hero : « 📍 Je sais qui sait faire quoi » / « 📈 Je développe ce qui manque, au poste ».</div>
+      <dl><dt>Avantage</dt><dd>H1 très court et mémorisable ; deux blocs faciles à scanner.</dd><dt>Inconvénient</dt><dd>Dépend d'un design à deux blocs qui n'existe pas encore.</dd><dt>Cible</dt><dd>Tous profils — bonne option pour une page multi-cible.</dd><dt>Différenciation</dt><dd>Moyenne sur le H1 seul, bonne si les deux blocs sont bien écrits.</dd><dt>SEO</dt><dd>Bon — deux blocs, deux occasions de mots-clés distincts.</dd><dt>GEO</dt><dd>Très bon — format le plus facile à citer pour une IA.</dd></dl>
+    </div>
+    <div class="option-card">
+      <div class="opt-label">Option E — Formulation orientée « capacités des équipes »</div>
+      <div class="opt-formula">H1 : « Connaissez les capacités réelles de vos équipes. Développez-les là où elles manquent. »</div>
+      <dl><dt>Avantage</dt><dd>Parle autant à une direction opérationnelle qu'à un DRH, ton moins « outil RH ».</dd><dt>Inconvénient</dt><dd>« Capacité » est plus vague que « compétence » dans le champ sémantique déjà construit.</dd><dt>Cible</dt><dd>Direction opérationnelle / industrielle.</dd><dt>Différenciation</dt><dd>Faible à moyenne — vocabulaire assez générique en management de la performance.</dd><dt>SEO</dt><dd>Plus faible — risque de perdre l'acquis sémantique déjà construit autour de « compétences ».</dd><dt>GEO</dt><dd>Moyen — moins précis pour rattacher la page à la catégorie déjà établie.</dd></dl>
+    </div>
+  </div>
+</section>
+
+<section id="propositions">
+  <span class="sec-num">18 — Propositions de formulations</span>
+  <h2>Propositions de formulations</h2>
+  <p class="lede">Pistes de travail, non hiérarchisées — à examiner et éventuellement tester par l'équipe.</p>
+
+  <h3>5 H1</h3>
+  <div class="proposal-card">
+    <div class="p-h1">« Sachez qui sait faire quoi. Développez ce qui manque, au poste. »</div>
+    <div class="proposal-meta">
+      <div><b>Promesse</b>Visibilité + développement, en une phrase courte.</div>
+      <div><b>Cible</b>Tous profils.</div>
+      <div><b>Avantage</b>Mémorable, déjà proche de la version testée.</div>
+      <div><b>Risque</b>Proche d'un positionnement de suivi pur sur sa première moitié.</div>
+    </div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« Des compétences qu'on peut enfin prouver — pas seulement déclarer. »</div>
+    <div class="proposal-meta">
+      <div><b>Promesse</b>La preuve comme différenciateur central.</div>
+      <div><b>Cible</b>DRH, responsables formation, entreprises auditées.</div>
+      <div><b>Avantage</b>Différenciation forte, alignée sur le mécanisme réel.</div>
+      <div><b>Risque</b>Plus abstrait pour un lecteur qui ne connaît pas encore l'enjeu.</div>
+    </div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« Sécurisez les savoir-faire critiques de vos équipes terrain. »</div>
+    <div class="proposal-meta">
+      <div><b>Promesse</b>Réduction de risque (perte de savoir-faire).</div>
+      <div><b>Cible</b>Direction industrielle, DRH grands comptes.</div>
+      <div><b>Avantage</b>Parle à un enjeu business immédiat.</div>
+      <div><b>Risque</b>Ne nomme pas le développement/transmission — à compléter par la description.</div>
+    </div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« Chaque compétence développée au poste, chaque preuve tracée. »</div>
+    <div class="proposal-meta">
+      <div><b>Promesse</b>Couvre développement + traçabilité en une phrase.</div>
+      <div><b>Cible</b>Responsables formation, organismes de formation/CFA.</div>
+      <div><b>Avantage</b>Rythme et parallélisme faciles à mémoriser.</div>
+      <div><b>Risque</b>Reste procédural, sans bénéfice business explicite.</div>
+    </div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« La compétence terrain, enfin visible et développée. »</div>
+    <div class="proposal-meta">
+      <div><b>Promesse</b>Synthèse courte des deux dimensions.</div>
+      <div><b>Cible</b>Tous profils.</div>
+      <div><b>Avantage</b>Très court, facile à décliner visuellement.</div>
+      <div><b>Risque</b>« Enfin » suppose un manque pas toujours ressenti par tout le lectorat.</div>
+    </div>
+  </div>
+
+  <h3>5 descriptions sous H1</h3>
+  <div class="proposal-card"><div class="p-desc">« Cartographiez ce que vos équipes savent vraiment faire, comblez les écarts au poste de travail, et gardez-en une preuve exploitable par vos systèmes RH. »</div></div>
+  <div class="proposal-card"><div class="p-desc">« Des référentiels construits avec vos experts, des tuteurs formés sur le terrain, et une compétence validée en situation réelle plutôt que supposée. »</div></div>
+  <div class="proposal-card"><div class="p-desc">« Identifiez les écarts, formez au poste plutôt qu'en salle, et transmettez les savoir-faire critiques avant qu'ils ne partent avec vos experts. »</div></div>
+  <div class="proposal-card"><div class="p-desc">« Une démarche complète — structurer, transmettre, développer, tracer — portée par une plateforme pensée pour les équipes de terrain. »</div></div>
+  <div class="proposal-card"><div class="p-desc">« De la compétence attendue à la compétence prouvée : la visibilité et le développement de vos équipes terrain, réunis dans une seule démarche. »</div></div>
+
+  <h3>5 couples H1 + description</h3>
+  <div class="proposal-card">
+    <div class="p-h1">« Sachez qui sait faire quoi. Développez ce qui manque, au poste. »</div>
+    <div class="p-desc">+ « Cartographiez les compétences réellement maîtrisées par vos équipes, transmettez les savoir-faire critiques sur le terrain, et gardez-en une preuve tracée. »</div>
+    <div class="proposal-meta"><div><b>Cible</b>Multi-profils.</div><div><b>Avantage</b>Couverture complète des deux dimensions dès le hero.</div><div><b>Risque</b>Densité d'information dans un espace réduit.</div><div><b>Différenciation</b>Moyenne, à renforcer par le mot « transmettez ».</div></div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« Des compétences qu'on peut enfin prouver — pas seulement déclarer. »</div>
+    <div class="p-desc">+ « Identifiez les écarts, développez vos équipes directement au poste de travail, et validez chaque compétence en situation réelle plutôt que sur un CV ou une formation suivie. »</div>
+    <div class="proposal-meta"><div><b>Cible</b>DRH, responsables formation.</div><div><b>Avantage</b>Différenciation forte et immédiate.</div><div><b>Risque</b>Demande un peu plus de lecture pour saisir le bénéfice concret.</div><div><b>Différenciation</b>Forte.</div></div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« Sécurisez les savoir-faire critiques de vos équipes terrain. »</div>
+    <div class="p-desc">+ « Sachez qui sait vraiment faire quoi, développez rapidement les compétences qui manquent au poste, et transmettez l'expertise de vos meilleurs éléments avant qu'elle ne parte avec eux. »</div>
+    <div class="proposal-meta"><div><b>Cible</b>Direction industrielle, DRH grands comptes.</div><div><b>Avantage</b>Ancré sur un enjeu de risque business fort.</div><div><b>Risque</b>« Sécuriser » peut sembler défensif plutôt qu'orienté performance.</div><div><b>Différenciation</b>Bonne.</div></div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« La compétence terrain, enfin visible et développée. »</div>
+    <div class="p-desc">+ « Une cartographie fiable de ce que vos équipes savent faire, des parcours de développement au poste de travail, et une preuve tracée pour vos systèmes RH et vos financeurs. »</div>
+    <div class="proposal-meta"><div><b>Cible</b>Tous profils.</div><div><b>Avantage</b>Équilibre entre simplicité du H1 et richesse de la description.</div><div><b>Risque</b>« Enfin » suppose un manque pas toujours ressenti.</div><div><b>Différenciation</b>Moyenne.</div></div>
+  </div>
+  <div class="proposal-card">
+    <div class="p-h1">« Chaque compétence développée au poste, chaque preuve tracée. »</div>
+    <div class="p-desc">+ « De l'identification des écarts à la validation en situation réelle : une démarche complète pour rendre les compétences de vos équipes terrain visibles, développées et prouvées. »</div>
+    <div class="proposal-meta"><div><b>Cible</b>Responsables formation, organismes de formation/CFA.</div><div><b>Avantage</b>Rythme mémorable, cohérent avec le vocabulaire déjà utilisé.</div><div><b>Risque</b>Reste plus procédural qu'orienté résultat business chiffré.</div><div><b>Différenciation</b>Moyenne.</div></div>
+  </div>
+</section>
+
+<section id="autres">
+  <span class="sec-num">19 — Ajustements sur les autres sections</span>
+  <h2>Ajustements sur les autres sections</h2>
+  <div class="mod-card">
+    <h4>Section « Pour qui »</h4>
+    <div class="mod-row"><b>Actuel</b><span>4 personas, chacun avec un CTA différent (voir une solution, voir un guide, télécharger un outil, faire un diagnostic).</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Harmoniser le niveau d'engagement des 4 CTA pour que chaque persona ait un choix cohérent entre « en savoir plus » et « passer à l'action ».</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>Évite qu'un profil se voie proposer un engagement plus fort ou plus faible que les autres sans raison apparente.</span></div>
+  </div>
+  <div class="mod-card">
+    <h4>FAQ</h4>
+    <div class="mod-row"><b>Actuel</b><span>10 questions solides, mais aucune ne traite explicitement de la visualisation des compétences disponibles dans une équipe.</span></div>
+    <div class="mod-row"><b>Suggestion</b><span>Ajouter une question du type « Comment visualiser les compétences disponibles dans mon équipe ? ».</span></div>
+    <div class="mod-row"><b>Pourquoi</b><span>Comble l'un des deux seuls gaps identifiés dans le test GEO (section 15).</span></div>
+  </div>
+  <p><span class="pill pill-warn">Comparatif</span> Déjà traité en section 16 (nommer LMS/SIRH directement dans cette section).</p>
+  <p>Les sections suivantes fonctionnent déjà bien et ne nécessitent pas de modification : présentation de la plateforme (absente dans les deux, non spécifique à la nouvelle version), auto-évaluation, douleurs/situations, démarche, témoignages, et CTA final (hors alignement avec le CTA d'en-tête déjà signalé en section 16).</p>
+</section>
+
+<section id="tester">
+  <span class="sec-num">20 — Version à tester</span>
+  <h2>Version à tester</h2>
+  <p class="lede">Ce n'est pas une nouvelle homepage : c'est une combinaison des ajustements ci-dessus, présentée pour que l'équipe voie concrètement ce qu'ils donneraient ensemble.</p>
+  <div class="mockup">
+    <div class="m-kicker">Plateforme de gestion et de développement des compétences opérationnelles</div>
+    <h3>Sachez qui sait vraiment faire quoi — et prouvez-le. Développez et transmettez ce qui manque, au poste.</h3>
+    <p class="m-desc">Cartographiez les compétences réellement maîtrisées par vos équipes, formez vos tuteurs terrain, et validez chaque compétence en situation réelle plutôt que sur un CV ou une formation suivie.</p>
+    <div class="m-cta">
+      <span class="btn btn-primary">Faire le diagnostic gratuit — 30 min</span>
+      <span class="btn btn-secondary">Voir nos kits d'évaluation</span>
+    </div>
+    <div class="m-blocks">
+      <div class="m-block"><b>📍 Visibilité</b>Une cartographie fiable de ce que vos équipes savent vraiment faire, mise à jour à chaque évaluation terrain.</div>
+      <div class="m-block"><b>📈 Développement</b>Des parcours de montée en compétences déployés directement au poste, portés par des tuteurs formés et reconnus.</div>
+    </div>
+  </div>
+</section>
+
+<section id="synthese">
+  <span class="sec-num">21 — Synthèse pour l'équipe</span>
+  <h2>Synthèse pour l'équipe</h2>
+  <div class="final-grid">
+    <div class="final-box">
+      <h4>🟢 Clairement meilleur dans la nouvelle version</h4>
+      <ul class="clean">
+        <li>Le H1 nomme les deux dimensions de valeur en une seule phrase.</li>
+        <li>Une FAQ complète répond aux questions de définition, différenciation et financement.</li>
+        <li>Une segmentation par persona adresse chaque fonction directement.</li>
+        <li>Un parcours mieux ordonné (problème avant solution).</li>
+        <li>Un maillage interne réel dans le footer.</li>
+      </ul>
+    </div>
+    <div class="final-box">
+      <h4>🟠 Ce qui reste à améliorer</h4>
+      <ul class="clean">
+        <li>La première moitié du H1 reste proche d'un positionnement déjà occupé sur le marché.</li>
+        <li>Le mot « transmission » a disparu du haut de page.</li>
+        <li>Le bénéfice reste décrit en mécanisme plutôt qu'en résultat chiffré.</li>
+        <li>La comparaison directe avec un LMS/SIRH n'apparaît plus dans la section différenciation elle-même.</li>
+        <li>Aucune preuve visuelle de la plateforme.</li>
+      </ul>
+    </div>
+    <div class="final-box">
+      <h4>✅ Ce qui devrait être conservé</h4>
+      <ul class="clean">
+        <li>La FAQ dans son ensemble.</li>
+        <li>La segmentation par persona.</li>
+        <li>Le mécanisme de différenciation « compétence observée/évaluée/prouvée ».</li>
+        <li>Le CTA secondaire du hero, immédiat et à faible friction.</li>
+        <li>Le footer enrichi à 5 colonnes.</li>
+      </ul>
+    </div>
+    <div class="final-box">
+      <h4>🎯 Les 3 ajustements les plus intéressants à tester</h4>
+      <ol class="clean" style="padding-left:20px;">
+        <li><b>Renforcer la preuve dans le H1</b> — pourquoi : différenciation face à un positionnement déjà occupé — impact attendu : clarté de la différenciation dès la première lecture.</li>
+        <li><b>Réintroduire « transmission »</b> dans le haut de page — pourquoi : pilier réel de l'offre absent du hero — impact attendu : cohérence sémantique et SEO renforcée.</li>
+        <li><b>Aligner le CTA principal</b> sur une offre nommée — pourquoi : réduit la friction pour un visiteur froid — impact attendu : probable amélioration du taux de clic.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="final">
+  <span class="sec-num">Verdict final</span>
+  <h2>Verdict final</h2>
+  <p><b>Est-ce que la nouvelle homepage est meilleure que l'actuelle ?</b> Oui.</p>
+  <p><b>Pourquoi ?</b> Elle progresse sur presque tous les critères mesurés (+25 points), avec des gains particulièrement marqués sur le SEO, le GEO, la compréhension de Daylindo et la compréhension des cibles. Elle est la première à nommer explicitement les deux dimensions de valeur de Daylindo dans son H1, à répondre aux objections courantes via une FAQ, et à segmenter le discours par fonction.</p>
+  <p><b>Est-elle suffisamment bonne pour être mise en ligne ?</b> Oui, avec quelques ajustements.</p>
+  <p><b>Quels ajustements tester avant la mise en ligne ?</b> Renforcer la notion de preuve dans le H1 pour éviter de ressembler à un positionnement déjà occupé sur le marché ; réintroduire le mot « transmission » dans le haut de page ; aligner le CTA principal du header/hero sur une offre nommée et gratuite ; vérifier l'orthographe du nom de client affiché en preuve sociale.</p>
+  <div class="verdict-final">
+    <div class="vf-title">🟢 AMÉLIORATION RÉELLE</div>
+    <div class="vf-sub">75/100 contre 50/100 pour l'actuelle, soit +25 points. Le fond est solide ; les ajustements identifiés sont des réglages de positionnement, pas une remise en cause de la structure.</div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('.toc a');
+  var sections = Array.prototype.map.call(links, function(a){ return document.querySelector(a.getAttribute('href')); });
+  function onScroll(){
+    var pos = window.scrollY + 140;
+    var activeIdx = 0;
+    sections.forEach(function(s, i){ if(s && s.offsetTop <= pos) activeIdx = i; });
+    links.forEach(function(a,i){ a.classList.toggle('active', i===activeIdx); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
