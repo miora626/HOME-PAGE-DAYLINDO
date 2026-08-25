@@ -19,11 +19,6 @@ html{scroll-behavior:smooth}
 body{font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--encre);background:var(--blanc);line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 a{color:inherit;text-decoration:none}
-.annot{position:relative}
-.annot::before{content:attr(data-annot);position:absolute;top:8px;left:8px;z-index:5;background:#181410;color:#fff;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:20px;opacity:.8}
-.annot.new::before{background:var(--vert);opacity:.95}
-.ribbon{background:#181410;color:#F3D9A4;text-align:center;font-size:13px;padding:10px 12px;letter-spacing:.2px}
-.ribbon b{color:#fff}
 
 /* HEADER */
 header{background:var(--creme);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--bord)}
@@ -245,11 +240,6 @@ footer li{list-style:none;margin-bottom:9px}
 footer a:hover{color:#fff}
 .fbot{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-size:12.5px;color:#8A827A}
 
-.legend{background:#fffaf0;border-top:4px solid #8A6D1D;padding:48px 0 68px}
-.legend h2{font-size:21px}
-.legend ol{padding-left:22px;color:var(--encre)}
-.legend li{margin-bottom:10px;font-size:14px}
-.legend li b{color:#181410}
 
 @media(max-width:960px){
   .nav ul{display:none}
@@ -263,8 +253,6 @@ footer a:hover{color:#fff}
 </style>
 </head>
 <body>
-
-<div class="ribbon">🖼️ <b>RECOMMANDATION FINALE — clarification Gérald</b> — Gérald a confirmé : « enlever les questions qu'on nous pose » visait uniquement le titre H2 de la FAQ, pas la section. FAQ restaurée intégralement (10 questions), seul le H2 « Les questions qu'on nous pose » a été retiré, l'eyebrow « Questions fréquentes » reste seul en tête de section. Par ailleurs : barre de chiffres avant « Ils nous font confiance » = 4 chiffres transmis (6 000+ collaborateurs, -50% turnover précoce, -40% temps d'intégration, 3 000 formations). Nouvelle section « Positionnement » avant le cas Jean (phrase de positionnement, chaîne requis→acquis en 6 étapes, 3 blocs LMS / SIRH-Talent-Skills Management / Daylindo). Mention AFPA/DomusVi retirée du Témoignage. Tirets longs (—) du texte visible remplacés par virgules, tirets courts ou parenthèses. ⚠️ Toujours en attente : la formulation du kicker (question ouverte de Gérald, non tranchée) — inchangé.</div>
 
 <header>
   <div class="wrap nav">
@@ -294,7 +282,7 @@ footer a:hover{color:#fff}
 </header>
 
 <!-- 1. HERO -->
-<div class="hero annot new" data-annot="1 · Hero — H1 recommandé (#9) + sous-titre 1 + CTA restructurés">
+<div class="hero">
   <div class="wrap">
     <p class="kicker">Plateforme de gestion et de développement des compétences opérationnelles</p>
     <h1>Sachez qui sait vraiment faire quoi. Développez les compétences qui manquent, directement au poste de travail.</h1>
@@ -320,7 +308,7 @@ footer a:hover{color:#fff}
 </div>
 
 <!-- 2. DOULEURS / SITUATIONS (site actuel) -->
-<section class="annot" data-annot="2 · Douleurs — 6 situations + stat 68% (site actuel)">
+<section>
   <div class="wrap">
     <p class="eyebrow2">Votre situation</p>
     <h2 class="wide">Dans laquelle de ces situations vous trouvez-vous ?</h2>
@@ -368,7 +356,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 3. DEMARCHE (site actuel) -->
-<section class="dark annot" data-annot="3 · Démarche — 4 étapes, texte du site actuel">
+<section class="dark">
   <div class="wrap">
     <p class="eyebrow2">La méthode</p>
     <h2 class="wide">Le cycle complet, du terrain jusqu'à votre SIRH</h2>
@@ -382,7 +370,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 4. POUR QUI -->
-<section class="alt annot" data-annot="4 · Pour qui — 4 personas (structure conservée, copie plus experte) + grille d'auto-qualification">
+<section class="alt">
   <div class="wrap">
     <p class="eyebrow2">Pour qui</p>
     <h2 class="wide">La gestion des compétences opérationnelles pour les RH, la formation et les équipes opérationnelles terrain</h2>
@@ -413,7 +401,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 5. POSITIONNEMENT -->
-<section class="annot" data-annot="5 · Positionnement — donnée de compétence issue du travail réel, chaîne requis→acquis, LMS/SIRH/Daylindo">
+<section>
   <div class="wrap">
     <p class="eyebrow2">Ce que Daylindo est, et ce qu'il n'est pas</p>
     <h2 class="wide">Daylindo produit et actualise la donnée de compétence à partir du travail réel, avec le niveau de détail nécessaire au pilotage des compétences opérationnelles.</h2>
@@ -445,38 +433,8 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- 5b. COMPARATIF — CAS JEAN -->
-<section class="annot" data-annot="5b · Comparatif — cas Jean (compétence supposée vs prouvée)">
-  <div class="wrap">
-    <p class="eyebrow2">Un cas concret</p>
-    <h2 class="wide">« Jean est technicien niveau 3. » D'accord. Mais sur quoi repose cette affirmation ?</h2>
-    <p class="lead">C'est la différence entre une compétence qu'on suppose et une compétence qu'on peut démontrer. Elle décide de ce que vous pouvez affirmer devant un auditeur, un client, ou un manager qui doit affecter quelqu'un à un poste demain matin.</p>
-    <div class="chain">
-      <div class="side old">
-        <h3>Ce que produisent les outils RH classiques</h3>
-        <div class="flow">
-          <div class="node"><i>01</i> Compétence supposée</div>
-          <div class="node"><i>02</i> Compétence déclarée</div>
-          <div class="node"><i>03</i> Compétence inférée</div>
-        </div>
-        <p class="say">Déduite du poste, du CV, des formations suivies, des déclarations d'entretien. Personne n'a jamais vu Jean le faire.</p>
-      </div>
-      <div class="vs">VS</div>
-      <div class="side new">
-        <h3>Ce que produit Daylindo</h3>
-        <div class="flow">
-          <div class="node"><i>01</i> Compétence observée</div>
-          <div class="node"><i>02</i> Compétence évaluée</div>
-          <div class="node"><i>03</i> Compétence prouvée</div>
-        </div>
-        <p class="say">Observée en situation de travail réelle par un tuteur formé, évaluée sur un référentiel construit avec vos experts, prouvée par une trace horodatée et opposable.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- 6. TEMOIGNAGE -->
-<section class="alt annot" data-annot="6 · Témoignage — Orange + orangebox (AFPA/DomusVi retiré sur demande)">
+<section class="alt">
   <div class="wrap">
     <p class="eyebrow2">La preuve</p>
     <h2>Ils l'ont fait</h2>
@@ -495,7 +453,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 7. FAQ -->
-<section class="annot" data-annot="7 · FAQ — 10 questions stratégiques, FAQPage schema.org (titre H2 retiré sur demande de Gérald)">
+<section>
   <div class="wrap">
     <p class="eyebrow2">FAQ</p>
     <div style="margin-top:28px;max-width:900px">
@@ -515,7 +473,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 8. CTA FINAL -->
-<section id="final" class="alt annot" data-annot="8 · CTA final — concept 1, deux niveaux d'engagement">
+<section id="final" class="alt">
   <div class="wrap">
     <div class="final">
       <p class="eyebrow2">Diagnostic gratuit, 30 minutes</p>
@@ -531,7 +489,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 9. FOOTER -->
-<footer class="annot" data-annot="9 · Footer">
+<footer>
   <div class="wrap">
     <div id="a-propos" class="fabout">
       <h4>À propos</h4>
@@ -571,24 +529,6 @@ footer a:hover{color:#fff}
     </div>
   </div>
 </footer>
-
-<!-- LEGEND -->
-<div class="legend">
-  <div class="wrap">
-    <h2>🗒️ Notes de version — retours de réunion intégrés</h2>
-    <ol>
-      <li><b>① Hero :</b> nouveau H1 — « Transformez les savoir-faire de vos équipes terrain en compétences prouvées. » — suite aux retours jugeant l'ancienne formulation trop compliquée. Sous-titre retravaillé pour répondre en 2 phrases simples à quoi/pour qui/résultat attendu : phrase 1 = le mécanisme (référentiels avec vos experts, tuteurs formés, démarche + plateforme) et la cible (entreprises avec des équipes terrain) ; phrase 2 = le résultat (savoir-faire sécurisés, autonomie accélérée, compétences pilotables) — sans reprendre le triptyque structurer/transmettre/prouver déjà utilisé dans une proposition de sous-titre reçue, qui recréait la même lourdeur que l'ancien H1 juste en dessous. Le CTA secondaire devient « Faire une auto-évaluation » et pointe vers le kit d'évaluation déjà en ligne (daylindo.com/nos-kits-devaluation).</li>
-      <li><b>② Chiffres + preuve sociale :</b> les 3 chiffres sont regroupés juste après les CTA avec le bloc « Ils nous font confiance ». Chiffres corrigés sur indication : 3 000 formations, 6 000 collaborateurs accompagnés, 5 ans de R&amp;D (remplace l'ancien 1 700 AFPA/DomusVi, qui reste néanmoins cité dans le Témoignage comme preuve spécifique à ce partenariat). La section « Voir notre plateforme » et la section « Chiffres » autonome de la version précédente ont été retirées : elles n'étaient pas dans les 9 blocs validés en réunion.</li>
-      <li><b>③ Douleurs :</b> titre aligné sur le site actuel — « Dans laquelle de ces situations vous trouvez-vous ? » — et contenu remplacé par le texte exact du site actuel (daylindo.com) — 6 situations : Organisation fondée sur les compétences, Savoir-faire critiques à sécuriser, Turnover élevé &amp; intégration coûteuse, Réseaux multi-sites hétérogènes, Forces de vente &amp; équipes terrain, Organismes de formation &amp; CFA. La statistique 68% (Étude Lefevre Dalloz, 2025), présente sur le site actuel, a été réintégrée en clôture de cette section — elle avait été oubliée dans une version précédente.</li>
-      <li><b>④ Démarche :</b> revenue aux 4 étapes exactes du site actuel — Structurer, Outiller les formateurs, Déployer au poste, Tracer et valoriser — avec leurs descriptions verbatim. Les étapes 5 (Prouver) et 6 (Alimenter) de la version enrichie Daniela ont été retirées, de même que la section séparée « Notre démarche » (chaîne de la preuve), absente des 9 blocs validés.</li>
-      <li><b>⑤ Pour qui :</b> structure des 4 personas inchangée, formulation retravaillée pour un registre plus expert (vocabulaire GEPP, AFEST, Qualiopi, cartographie des compétences) tout en gardant le triptyque Problème / Besoin / Ce qu'apporte Daylindo. La grille des « Sept questions » a été retirée sur demande.</li>
-      <li><b>⑥ Comparatif :</b> réduit au cas Jean — « Jean est technicien niveau 3. D'accord, mais sur quoi repose cette affirmation ? » (compétence supposée/déclarée/inférée vs observée/évaluée/prouvée). Le tableau LMS/SIRH/Daylindo et le bloc « Complémentaire, pas concurrent » ont été retirés sur demande.</li>
-      <li><b>⑦ Témoignage :</b> strictement inchangé — texte + chiffres détaillés « orangebox » Orange, partenariat AFPA/DomusVi en preuve secondaire, comme validé.</li>
-      <li><b>⑧ FAQ :</b> 10 questions retenues sur 12 analysées selon les critères du brief (intention, réponse courte/complète, valeur SEO/GEO/conversion) — 2 écartées pour redondance ou donnée non confirmée à ne pas inventer. Balisage FAQPage schema.org à implémenter en développement.</li>
-      <li><b>⑨ CTA final et footer :</b> inchangés — CTA positionné juste après la FAQ, deux niveaux d'engagement (fort/faible), footer conforme à l'existant (contact, mentions légales, SIREN/TVA vérifiés sur le site).</li>
-    </ol>
-  </div>
-</div>
 
 </body>
 </html>
