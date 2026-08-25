@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Daylindo | Gestion et développement des compétences opérationnelles</title>
-<meta name="description" content="Transformez les savoir-faire de vos équipes terrain en compétences prouvées : Daylindo construit vos référentiels avec vos experts, forme vos tuteurs et enregistre chaque compétence démontrée au poste — une démarche complète, portée par une plateforme, pour sécuriser vos savoir-faire critiques et accélérer l'autonomie. Organisme de formation certifié Qualiopi.">
+<meta name="description" content="Daylindo est une plateforme de gestion et de développement des compétences opérationnelles : identifiez les compétences maîtrisées, développez celles qui manquent directement au poste de travail, et validez la maîtrise en situation réelle. Organisme de formation certifié Qualiopi.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -117,6 +117,17 @@ h2.wide{max-width:36ch}
 .say{font-size:14.5px;line-height:1.5;padding-top:16px;border-top:1px solid rgba(0,0,0,.09)}
 .side.new .say{border-top-color:rgba(255,255,255,.16);color:#D9D2CA}
 .vs{align-self:center;font-weight:700;color:var(--gris-clair);font-size:13px;letter-spacing:.1em}
+.hchain{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+.hchain .hnode{background:#F1EDE7;border:1px solid var(--bord);border-radius:10px;padding:12px 16px;font-weight:600;font-size:13.5px;color:var(--encre)}
+.hchain .hnode:last-child{background:var(--rouge);color:#fff;border-color:var(--rouge)}
+.hchain .harrow{color:var(--gris-clair);font-weight:700}
+.poscols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:32px}
+.poscol{border-radius:16px;padding:22px;background:#F1EDE7;border:1px solid var(--bord)}
+.poscol.hl{background:var(--encre);color:#fff;border-color:var(--encre)}
+.poscol h4{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--encre)}
+.poscol.hl h4{color:var(--rouge)}
+.poscol p{font-size:13.5px;line-height:1.5;color:var(--gris);margin:0}
+.poscol.hl p{color:#D9D2CA}
 
 /* STAT */
 .statgrid{display:grid;grid-template-columns:190px 1fr;gap:40px;align-items:start}
@@ -253,7 +264,7 @@ footer a:hover{color:#fff}
 </head>
 <body>
 
-<div class="ribbon">🖼️ <b>RECOMMANDATION FINALE — retours Gérald intégrés</b> — H1 « Sachez qui sait vraiment faire quoi. Développez les compétences qui manquent, directement au poste de travail. » (celle sur laquelle portaient ses remarques). Menu du haut : Accueil / Plateforme / Solutions (avec sous-menu, style Teach Up) / Ressources / Cas clients / Parler à un expert / Se connecter. Tag Qualiopi retiré du hero. « De l'atelier » → « du terrain » dans le H2 Démarche. Section Pour qui entièrement réécrite : nouveau titre + intro, cartes simplifiées (rôle + promesse + un seul paragraphe, plus de triptyque Problème/Besoin/Apporte), CFA &amp; organismes de formation retirés de cette section et déplacés dans le sous-menu Solutions. ⚠️ En attente : (1) le screenshot joint est un lien SharePoint privé, illisible depuis ici — à réattacher en pièce jointe directe ; (2) la formulation du kicker reste une question ouverte de Gérald, non tranchée — kicker inchangé en attendant sa décision.</div>
+<div class="ribbon">🖼️ <b>RECOMMANDATION FINALE — clarification Gérald</b> — Gérald a confirmé : « enlever les questions qu'on nous pose » visait uniquement le titre H2 de la FAQ, pas la section. FAQ restaurée intégralement (10 questions), seul le H2 « Les questions qu'on nous pose » a été retiré, l'eyebrow « Questions fréquentes » reste seul en tête de section. Par ailleurs : barre de chiffres avant « Ils nous font confiance » = 4 chiffres transmis (6 000+ collaborateurs, -50% turnover précoce, -40% temps d'intégration, 3 000 formations). Nouvelle section « Positionnement » avant le cas Jean (phrase de positionnement, chaîne requis→acquis en 6 étapes, 3 blocs LMS / SIRH-Talent-Skills Management / Daylindo). Mention AFPA/DomusVi retirée du Témoignage. Tirets longs (—) du texte visible remplacés par virgules, tirets courts ou parenthèses. ⚠️ Toujours en attente : la formulation du kicker (question ouverte de Gérald, non tranchée) — inchangé.</div>
 
 <header>
   <div class="wrap nav">
@@ -297,9 +308,10 @@ footer a:hover{color:#fff}
 
     <div class="trust">
       <div class="kpis">
+        <div class="kpi"><b>6 000+</b><span>collaborateurs accompagnés</span></div>
+        <div class="kpi"><b>-50%</b><span>turnover précoce</span></div>
+        <div class="kpi"><b>-40%</b><span>temps d'intégration</span></div>
         <div class="kpi"><b>3 000</b><span>formations transformées en parcours compétences</span></div>
-        <div class="kpi"><b>6 000</b><span>collaborateurs accompagnés</span></div>
-        <div class="kpi"><b>5 ans</b><span>de R&amp;D</span></div>
       </div>
       <p style="margin-top:26px">Ils nous font confiance</p>
       <div class="logos"><span>Orange</span><span>AFPA</span><span>DomusVi</span><span>The Adecco Group</span><span>Groupe Soufflet</span><span>Supplay</span><span>CFA Trajectoire</span></div>
@@ -400,10 +412,43 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- 5. COMPARATIF -->
-<section class="annot" data-annot="5 · Comparatif — cas Jean (compétence supposée vs prouvée)">
+<!-- 5. POSITIONNEMENT -->
+<section class="annot" data-annot="5 · Positionnement — donnée de compétence issue du travail réel, chaîne requis→acquis, LMS/SIRH/Daylindo">
   <div class="wrap">
     <p class="eyebrow2">Ce que Daylindo est, et ce qu'il n'est pas</p>
+    <h2 class="wide">Daylindo produit et actualise la donnée de compétence à partir du travail réel, avec le niveau de détail nécessaire au pilotage des compétences opérationnelles.</h2>
+
+    <p class="eyebrow2" style="margin-top:36px">Du requis à l'acquis, directement au poste de travail</p>
+    <div class="hchain">
+      <div class="hnode">Compétences requises</div><div class="harrow">→</div>
+      <div class="hnode">Compétences à développer</div><div class="harrow">→</div>
+      <div class="hnode">Développement au poste de travail</div><div class="harrow">→</div>
+      <div class="hnode">Observation et évaluation</div><div class="harrow">→</div>
+      <div class="hnode">Compétences réellement maîtrisées</div><div class="harrow">→</div>
+      <div class="hnode">Cartographie actualisée</div>
+    </div>
+
+    <div class="poscols">
+      <div class="poscol">
+        <h4>LMS</h4>
+        <p>Gère les contenus, les formations et les parcours suivis.</p>
+      </div>
+      <div class="poscol">
+        <h4>SIRH / Talent / Skills Management</h4>
+        <p>Structure et exploite la donnée de compétences à l'échelle RH.</p>
+      </div>
+      <div class="poscol hl">
+        <h4>Daylindo</h4>
+        <p>Développe, observe et valide les compétences opérationnelles en situation de travail pour produire une donnée issue du terrain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5b. COMPARATIF — CAS JEAN -->
+<section class="annot" data-annot="5b · Comparatif — cas Jean (compétence supposée vs prouvée)">
+  <div class="wrap">
+    <p class="eyebrow2">Un cas concret</p>
     <h2 class="wide">« Jean est technicien niveau 3. » D'accord. Mais sur quoi repose cette affirmation ?</h2>
     <p class="lead">C'est la différence entre une compétence qu'on suppose et une compétence qu'on peut démontrer. Elle décide de ce que vous pouvez affirmer devant un auditeur, un client, ou un manager qui doit affecter quelqu'un à un poste demain matin.</p>
     <div class="chain">
@@ -431,14 +476,14 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- 6. TEMOIGNAGE -->
-<section class="alt annot" data-annot="6 · Témoignage — inchangé, Orange + orangebox + AFPA/DomusVi">
+<section class="alt annot" data-annot="6 · Témoignage — Orange + orangebox (AFPA/DomusVi retiré sur demande)">
   <div class="wrap">
     <p class="eyebrow2">La preuve</p>
     <h2>Ils l'ont fait</h2>
     <div class="quote">
       <div>
         <q>On est passé d'une logique de formations à une logique de compétences.</q>
-        <p class="who"><b>Ahmed Kabèche</b> — Directeur École des métiers techniques, <b>Orange</b></p>
+        <p class="who"><b>Ahmed Kabèche</b>, Directeur École des métiers techniques, <b>Orange</b></p>
       </div>
       <div class="orangebox">
         <div><b>3 000</b> formations transformées en parcours compétences</div>
@@ -446,23 +491,21 @@ footer a:hover{color:#fff}
         <div><b>20+</b> parcours de reconversion pilotés</div>
       </div>
     </div>
-    <div class="second-proof"><b>Partenariat AFPA × DomusVi —</b> 1 700 collaborateurs accompagnés dans une démarche de professionnalisation, avec le soutien de l'État. Preuve la plus indépendante disponible (communiqué officiel AFPA, 2023).</div>
   </div>
 </section>
 
 <!-- 7. FAQ -->
-<section class="annot" data-annot="7 · FAQ — 10 questions stratégiques, FAQPage schema.org">
+<section class="annot" data-annot="7 · FAQ — 10 questions stratégiques, FAQPage schema.org (titre H2 retiré sur demande de Gérald)">
   <div class="wrap">
-    <p class="eyebrow2">Questions fréquentes</p>
-    <h2 class="wide">Les questions qu'on nous pose</h2>
+    <p class="eyebrow2">FAQ</p>
     <div style="margin-top:28px;max-width:900px">
       <details open><summary>Qu'est-ce que Daylindo, exactement ?</summary><p>Daylindo est une plateforme de gestion et de développement des compétences opérationnelles qui permet aux entreprises de structurer leurs référentiels, cartographier les compétences, identifier les écarts, organiser leur développement directement au poste de travail et valider les compétences réellement acquises en situation de travail.</p></details>
       <details><summary>Dans quelle catégorie de solutions se situe Daylindo ?</summary><p>Daylindo s'inscrit dans le domaine du Skills Management, et plus spécifiquement de l'Operational Skills Management : la plateforme relie la gestion des compétences à leur développement concret en situation de travail.</p></details>
       <details><summary>En quoi Daylindo est-il différent d'un LMS ?</summary><p>Un LMS répond à « est-ce que la personne a suivi la formation ? ». Daylindo répond à « est-ce que la personne sait réellement faire, dans les conditions de son poste ? » : référentiels construits avec vos experts, tuteurs formés, compétence démontrée en situation de travail réelle.</p></details>
       <details><summary>Faut-il remplacer notre SIRH ou notre LMS ?</summary><p>Non. Daylindo est une couche opérationnelle complémentaire qui s'intègre aux LMS, SIRH, TMS et outils de Talent Management pour les alimenter en données issues du terrain. Vous gardez vos outils, vous gagnez la donnée qui leur manque.</p></details>
-      <details><summary>Qu'est-ce qu'une compétence « prouvée », exactement ?</summary><p>Une compétence observée en situation de travail réelle par un tuteur ou un formateur formé, évaluée selon un référentiel construit avec vos experts métier, horodatée, et matérialisée par une attestation opposable — l'inverse d'une compétence inférée d'un CV, d'un poste ou d'une formation suivie.</p></details>
+      <details><summary>Qu'est-ce qu'une compétence « prouvée », exactement ?</summary><p>Une compétence observée en situation de travail réelle par un tuteur ou un formateur formé, évaluée selon un référentiel construit avec vos experts métier, horodatée, et matérialisée par une attestation opposable, l'inverse d'une compétence inférée d'un CV, d'un poste ou d'une formation suivie.</p></details>
       <details><summary>Comment les compétences sont-elles évaluées et tracées ?</summary><p>Par observation en situation réelle, formalisée par un tuteur ou un formateur formé, sur un référentiel construit avec vos experts. Chaque évaluation est horodatée et devient une donnée exploitable, exportable vers vos systèmes RH.</p></details>
-      <details><summary>Quel rôle jouent les tuteurs, et comment sont-ils accompagnés ?</summary><p>Vos experts internes deviennent des formateurs structurés : ils sont formés à observer, évaluer et transmettre, outillés pour le faire au poste de travail, et reconnus dans ce rôle — pas seulement désignés comme c'est souvent le cas.</p></details>
+      <details><summary>Quel rôle jouent les tuteurs, et comment sont-ils accompagnés ?</summary><p>Vos experts internes deviennent des formateurs structurés : ils sont formés à observer, évaluer et transmettre, outillés pour le faire au poste de travail, et reconnus dans ce rôle, pas seulement désignés comme c'est souvent le cas.</p></details>
       <details><summary>Daylindo permet-il de mettre en œuvre une AFEST conforme Qualiopi ?</summary><p>Oui. Le suivi des alternants et la traçabilité AFEST sont un cas d'usage à part entière : formalisation du rôle du tuteur, observations en situation, preuves exploitables par les financeurs et les organismes certificateurs.</p></details>
       <details><summary>Pour quelles entreprises et quels secteurs Daylindo est-il conçu ?</summary><p>Pour les entreprises avec des équipes sur le terrain : industrie, distribution, santé, logistique, intérim, ainsi que les organismes de formation et CFA pour le suivi de l'alternance et de l'AFEST.</p></details>
       <details><summary>Est-ce finançable par notre OPCO ?</summary><p>Daylindo est un organisme de formation certifié Qualiopi. Le dispositif relève de l'action de formation et peut être présenté au financement de votre OPCO, selon les règles et critères d'éligibilité applicables à votre entreprise. Nous montons le dossier avec vous.</p></details>
@@ -475,11 +518,11 @@ footer a:hover{color:#fff}
 <section id="final" class="alt annot" data-annot="8 · CTA final — concept 1, deux niveaux d'engagement">
   <div class="wrap">
     <div class="final">
-      <p class="eyebrow2">Diagnostic gratuit — 30 minutes</p>
+      <p class="eyebrow2">Diagnostic gratuit, 30 minutes</p>
       <h2>Prêt à rendre visibles les compétences de vos équipes terrain ?</h2>
-      <p class="lead">Faisons le diagnostic de vos enjeux — 30 minutes, sans engagement — et identifions concrètement ce que Daylindo peut structurer, déployer et tracer dans votre organisation.</p>
+      <p class="lead">Faisons le diagnostic de vos enjeux en 30 minutes, sans engagement, et identifions concrètement ce que Daylindo peut structurer, déployer et tracer dans votre organisation.</p>
       <div class="cta-row">
-        <a class="btn btn-p btn-lg" href="#">Planifier mon diagnostic — 30 min</a>
+        <a class="btn btn-p btn-lg" href="#">Planifier mon diagnostic (30 min)</a>
         <a class="btn btn-o btn-lg" href="#">Télécharger la matrice de compétences</a>
       </div>
       <div class="lvl"><span>engagement fort</span><span>engagement faible</span></div>
