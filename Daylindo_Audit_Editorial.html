@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daylindo — Audit éditorial</title>
+<style>
+  :root{
+    --bg:#F6F4EE;
+    --surface:#FFFFFF;
+    --ink:#22323D;
+    --muted:#6B6F76;
+    --navy:#1F3B4D;
+    --navy-soft:#3B5568;
+    --ochre:#C97B3D;
+    --danger:#A6432F;
+    --danger-bg:#F6E3DE;
+    --warning:#8A6414;
+    --warning-bg:#FBF0D9;
+    --ok:#3C6B4E;
+    --ok-bg:#E4EEE6;
+    --info:#3B5568;
+    --info-bg:#E7EDF1;
+    --hairline:#E1DACB;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+  }
+  header{
+    background:var(--navy);
+    color:#fff;
+    padding:28px clamp(20px,4vw,56px) 24px;
+    border-bottom:4px solid var(--ochre);
+  }
+  header h1{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-weight:600;
+    font-size:clamp(22px,3vw,30px);
+    margin:0 0 4px 0;
+    letter-spacing:0.2px;
+  }
+  header p{
+    margin:0;
+    color:#C9D6DE;
+    font-size:14.5px;
+  }
+  main{
+    max-width:1320px;
+    margin:0 auto;
+    padding:clamp(18px,3vw,36px);
+    display:grid;
+    grid-template-columns:minmax(320px,420px) 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  @media (max-width:960px){
+    main{grid-template-columns:1fr;}
+  }
+  .panel.wide{grid-column:1 / -1;}
+  .manual-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .manual-badge{
+    font-family:Georgia,serif;
+    font-weight:700;
+    font-size:15px;
+    padding:5px 12px;
+    border-radius:20px;
+    background:var(--warning-bg);
+    color:var(--warning);
+    white-space:nowrap;
+  }
+  .manual-badge.done{background:var(--ok-bg);color:var(--ok);}
+  .manual-note{
+    font-size:12.5px;
+    color:var(--muted);
+    margin:0 0 16px 0;
+    line-height:1.5;
+  }
+  .manual-list{list-style:none;margin:0;padding:0;}
+  .manual-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:9px 4px;
+    border-bottom:1px solid var(--hairline);
+    font-size:13.8px;
+  }
+  .manual-list li:last-child{border-bottom:none;}
+  .manual-list input[type=checkbox]{
+    margin-top:3px;
+    width:16px;height:16px;
+    accent-color:var(--ochre);
+    flex:0 0 auto;
+    cursor:pointer;
+  }
+  .manual-list label{
+    margin:0;
+    font-size:13.8px;
+    font-weight:400;
+    color:var(--ink);
+    cursor:pointer;
+    text-transform:none;
+  }
+  .manual-list li.checked label{color:var(--muted);text-decoration:line-through;}
+  .manual-callout{
+    background:var(--info-bg);
+    border-left:3px solid var(--info);
+    border-radius:3px;
+    padding:12px 14px;
+    font-size:13.5px;
+    margin-top:16px;
+    font-style:italic;
+    color:var(--navy-soft);
+  }
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--hairline);
+    border-radius:6px;
+    padding:22px;
+  }
+  .panel h2{
+    font-family:Georgia,"Iowan Old Style",serif;
+    font-size:17px;
+    margin:0 0 14px 0;
+    color:var(--navy);
+    font-weight:600;
+  }
+  label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--muted);
+    margin:14px 0 5px 0;
+    text-transform:none;
+  }
+  label:first-of-type{margin-top:0;}
+  textarea{
+    width:100%;
+    min-height:340px;
+    resize:vertical;
+    border:1px solid var(--hairline);
+    border-radius:5px;
+    padding:12px;
+    font-size:13.5px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);
+    background:#FDFCF9;
+  }
+  select{
+    width:100%;
+    padding:9px 10px;
+    border:1px solid var(--hairline);
+    border-radius:5px;
+    background:#FDFCF9;
+    font-size:13.5px;
+    color:var(--ink);
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  button#analyze{
+    margin-top:20px;
+    width:100%;
+    background:var(--ochre);
+    color:#fff;
+    border:none;
+    padding:13px 16px;
+    font-size:15px;
+    font-weight:600;
+    border-radius:5px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  button#analyze:hover{background:#B56A30;}
+  .hint{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:10px;
+    line-height:1.45;
+  }
+  /* Results */
+  #results-empty{
+    color:var(--muted);
+    font-size:14px;
+    padding:30px 10px;
+    text-align:center;
+  }
+  .scoreboard{
+    display:flex;
+    gap:14px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+  }
+  .score-card{
+    flex:1;
+    min-width:130px;
+    border-radius:6px;
+    padding:14px 16px;
+    border:1px solid var(--hairline);
+  }
+  .score-card .num{
+    font-family:Georgia,serif;
+    font-size:28px;
+    font-weight:700;
+    line-height:1;
+  }
+  .score-card .lbl{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:4px;
+  }
+  .score-card.blocking{background:var(--danger-bg);}
+  .score-card.blocking .num{color:var(--danger);}
+  .score-card.warning{background:var(--warning-bg);}
+  .score-card.warning .num{color:var(--warning);}
+  .score-card.info{background:var(--info-bg);}
+  .score-card.info .num{color:var(--info);}
+  .verdict{
+    font-size:15px;
+    font-weight:600;
+    padding:12px 16px;
+    border-radius:5px;
+    margin-bottom:24px;
+  }
+  .verdict.blocking{background:var(--danger-bg);color:var(--danger);}
+  .verdict.warning{background:var(--warning-bg);color:var(--warning);}
+  .verdict.ok{background:var(--ok-bg);color:var(--ok);}
+
+  .category{margin-bottom:22px;}
+  .category h3{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    color:var(--navy-soft);
+    border-bottom:1px solid var(--hairline);
+    padding-bottom:6px;
+    margin:0 0 10px 0;
+    font-weight:700;
+  }
+  .finding{
+    display:flex;
+    gap:10px;
+    padding:9px 10px;
+    border-left:3px solid transparent;
+    border-radius:3px;
+    margin-bottom:6px;
+    font-size:13.5px;
+    background:#FBFAF7;
+  }
+  .finding.blocking{border-left-color:var(--danger);}
+  .finding.warning{border-left-color:var(--warning);}
+  .finding.info{border-left-color:var(--info);}
+  .finding.ok{border-left-color:var(--ok);}
+  .finding .tag{
+    flex:0 0 auto;
+    font-size:15px;
+    line-height:1.3;
+  }
+  .finding .txt b{font-weight:700;}
+  .finding .txt .ctx{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:2px;
+    font-style:italic;
+  }
+  .no-issue{
+    font-size:13px;
+    color:var(--ok);
+    padding:6px 10px;
+  }
+  .sector-ref{
+    background:#FBFAF7;
+    border:1px solid var(--hairline);
+    border-radius:5px;
+    padding:14px 16px;
+    font-size:13px;
+    margin-bottom:22px;
+  }
+  .sector-ref h3{margin:0 0 8px 0;font-size:13px;color:var(--navy);text-transform:none;letter-spacing:0;border:none;padding:0;}
+  .sector-ref p{margin:4px 0;}
+  .disclaimer{
+    margin-top:26px;
+    padding-top:16px;
+    border-top:1px solid var(--hairline);
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Daylindo — Audit éditorial</h1>
+  <p>Contrôle qualité automatisé avant envoi à Gerardo — vocabulaire, structure, références légales</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>1. Coller l'article</h2>
+    <label for="article-text">Texte complet de l'article</label>
+    <textarea id="article-text" placeholder="Collez ici le texte complet de l'article (titre, meta, corps, FAQ, CTA...)"></textarea>
+
+    <div class="row2">
+      <div>
+        <label for="famille">Famille</label>
+        <select id="famille">
+          <option value="B">B — Guide / critères</option>
+          <option value="A">A — Récit de terrain</option>
+          <option value="autre">Autre / non déterminée</option>
+        </select>
+      </div>
+      <div>
+        <label for="type">Type de page</label>
+        <select id="type">
+          <option value="pilier">Pilier</option>
+          <option value="page-fille">Page fille</option>
+          <option value="partenaire">Article partenaire</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="secteur">Secteur / angle</label>
+    <select id="secteur">
+      <option value="none">— Non spécifié —</option>
+      <option value="industrie">Industrie</option>
+      <option value="logistique">Logistique</option>
+      <option value="sante">Santé</option>
+      <option value="retail">Retail / réseaux multisites</option>
+      <option value="btp">BTP</option>
+      <option value="transport">Transport</option>
+      <option value="agro">Agroalimentaire</option>
+    </select>
+
+    <button id="analyze">Analyser l'article →</button>
+    <p class="hint">Cet outil vérifie le vocabulaire de marque, les principes "Le mot juste", la structure SEO/GEO et les références légales AFEST. Il ne remplace pas la relecture humaine sur la doctrine et la pertinence stratégique.</p>
+  </section>
+
+  <section class="panel">
+    <h2>2. Résultat de l'audit</h2>
+    <div id="results">
+      <div id="results-empty">Collez un article et cliquez sur "Analyser" pour voir le rapport ici.</div>
+    </div>
+  </section>
+
+  <section class="panel wide">
+    <div class="manual-head">
+      <h2 style="margin-bottom:0;">3. Vérification manuelle — pertinence stratégique &amp; doctrine</h2>
+      <span class="manual-badge" id="manual-badge">0 / 11</span>
+    </div>
+    <p class="manual-note">Cette partie ne peut pas être détectée par un script : aucun outil ne peut juger si un argument est stratégiquement pertinent pour une cible. Le ton est désormais vérifié automatiquement ci-dessus (bloc "Ton") ; ce qui suit reste les questions du framework de validation — à cocher soi-même (ou avec la rédactrice) avant l'envoi à Gerardo.</p>
+
+    <ul class="manual-list" id="manual-list">
+      <li><input type="checkbox" id="m1"><label for="m1">La cible est clairement identifiée : secteur, métier, persona, niveau de responsabilité — pas seulement "l'entreprise".</label></li>
+      <li><input type="checkbox" id="m2"><label for="m2">Un seul pain point prioritaire est traité ; le contenu ne mélange pas plusieurs problèmes sans hiérarchie.</label></li>
+      <li><input type="checkbox" id="m3"><label for="m3">L'argument part du problème réel de la cible — pas d'une fonctionnalité Daylindo qu'on cherche à placer.</label></li>
+      <li><input type="checkbox" id="m4"><label for="m4">L'argument n'est pas un argument générique Daylindo plaqué sur ce secteur sans adaptation.</label></li>
+      <li><input type="checkbox" id="m5"><label for="m5">Le cas client ou l'exemple cité est réellement pertinent pour ce secteur (pas emprunté à un autre sans expliquer l'analogie).</label></li>
+      <li><input type="checkbox" id="m6"><label for="m6">Aucun exemple, chiffre ou preuve n'a été inventé.</label></li>
+      <li><input type="checkbox" id="m7"><label for="m7">Aucune généralisation abusive du secteur — raisonné métier par métier si nécessaire.</label></li>
+      <li><input type="checkbox" id="m8"><label for="m8">Le vocabulaire de marque est respecté dans l'esprit, pas seulement mot à mot.</label></li>
+      <li><input type="checkbox" id="m9"><label for="m9">La hiérarchie Problème → Conséquence → Besoin → Réponse → Preuve est respectée et lisible.</label></li>
+      <li><input type="checkbox" id="m10"><label for="m10">Test anti-hors-sujet : Gerardo ne pourrait pas dire "c'est vrai, mais ce n'est pas le bon problème pour cette cible".</label></li>
+      <li><input type="checkbox" id="m11"><label for="m11">Le contenu pourrait être défendu tel quel face à une objection de Gerardo.</label></li>
+    </ul>
+
+    <div class="manual-callout" id="manual-callout">0 case cochée sur 11 — passez en revue chaque point avant l'envoi.</div>
+  </section>
+</main>
+
+<script>
+const SECTOR_REF = {
+  industrie: {
+    label: "Industrie",
+    prio: "Sécuriser la transmission des savoir-faire, éviter la perte de compétences critiques, transmettre les gestes métiers et les connaissances implicites, capitaliser le savoir-faire interne.",
+    avoid: "Ne pas réduire à « former rapidement », « réduire le coût de formation » ou « réduire le turnover » (sauf sous-secteurs à turnover élevé)."
+  },
+  logistique: {
+    label: "Logistique",
+    prio: "Réduire le temps de formation, former rapidement au poste, être efficace avec peu de ressources internes, limiter le coût par intégration.",
+    avoid: "Ne pas plaquer une logique de transmission de savoir-faire complexe — le vrai sujet est le turnover et la rapidité."
+  },
+  sante: {
+    label: "Santé",
+    prio: "Former rapidement et efficacement, limiter la mobilisation des ressources internes, valoriser les compétences acquises, contribuer à la fidélisation.",
+    avoid: "Ne pas présenter la formation uniquement comme une obligation réglementaire — c'est aussi un levier de fidélisation."
+  },
+  retail: {
+    label: "Retail / réseaux multisites",
+    prio: "Former rapidement, transmettre les bonnes pratiques, homogénéiser les pratiques entre points de vente, sécuriser les pratiques commerciales.",
+    avoid: "Ne pas traiter comme de la pure logistique, ni comme de l'industrie — c'est un mix turnover + homogénéité multisite."
+  },
+  btp: {
+    label: "BTP",
+    prio: "Former directement au poste, réduire la théorie inutile, sécuriser les gestes, limiter le risque d'erreur, accompagner la pénurie de main-d'œuvre.",
+    avoid: "Ne pas réduire à la seule « transmission des gestes métiers » — le vrai enjeu est le croisement pénurie + turnover + technicité + coût de l'erreur."
+  },
+  transport: {
+    label: "Transport",
+    prio: "Suivi du parcours de formation, traçabilité, accompagnement, suivi des apprentissages.",
+    avoid: "Ne pas forcer une proposition AFEST si le contexte ne s'y prête pas. Ne jamais communiquer sur le financement de façon agressive."
+  },
+  agro: {
+    label: "Agroalimentaire",
+    prio: "Raisonner métier par métier : certains postes ressemblent à la logistique (turnover, rapidité), d'autres à l'industrie (savoir-faire).",
+    avoid: "Ne pas généraliser tout le secteur à la transmission de savoir-faire complexes."
+  }
+};
+
+const LEGAL_REF = {
+  "L6313-2": "définit l'action de formation comme un parcours pédagogique — ne contient PAS la notion d'« élément probant ».",
+  "R6313-3": "contient la notion d'« élément probant » — c'est l'article à citer pour la justification de la réalisation d'une action.",
+  "D6313-3-2": "fixe les 4 conditions cumulatives de l'AFEST (analyse de l'activité, formateur désigné, phases réflexives, évaluations spécifiques)."
+};
+
+function escapeHtml(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function findAll(text, regex){
+  const matches = [];
+  let m;
+  const re = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : regex.flags + 'g');
+  while((m = re.exec(text)) !== null){
+    const start = Math.max(0, m.index - 35);
+    const end = Math.min(text.length, m.index + m[0].length + 35);
+    matches.push({match:m[0], context: text.slice(start,end).replace(/\s+/g,' ').trim()});
+    if(m.index === re.lastIndex) re.lastIndex++;
+  }
+  return matches;
+}
+
+document.getElementById('analyze').addEventListener('click', () => {
+  const text = document.getElementById('article-text').value;
+  const famille = document.getElementById('famille').value;
+  const secteur = document.getElementById('secteur').value;
+  const pageType = document.getElementById('type').value;
+  const resultsEl = document.getElementById('results');
+
+  if(!text.trim()){
+    resultsEl.innerHTML = '<div id="results-empty">Collez un article avant de lancer l\'analyse.</div>';
+    return;
+  }
+
+  const findings = { vocab: [], motjuste: [], structure: [], legal: [], sector: [] };
+
+  // ---------- 1. VOCABULAIRE DE MARQUE ----------
+  const bannedTerms = [
+    {re:/\bles acteurs\b/gi, label:'"les acteurs"', sev:'blocking', note:'Terme banni du glossaire — reformuler avec un sujet précis.'},
+    {re:/\bconverger\b/gi, label:'"converger"', sev:'blocking', note:'Terme banni du glossaire.'},
+    {re:/\brévolutionnaire\b/gi, label:'"révolutionnaire"', sev:'blocking', note:'Superlatif creux banni.'},
+    {re:/\bcertifi(er|ons|é|ée|és|ées|cation)(?![A-Za-zÀ-ÖØ-öø-ÿ])/gi, label:'"certifier / certification"', sev:'blocking', note:'Remplacer par "produire des preuves opposables" / "tracer les compétences validées".'},
+    {re:/\bnotre solution\b/gi, label:'"notre solution"', sev:'blocking', note:'Remplacer par "notre démarche" / "notre plateforme".'},
+    {re:/\bdigitaliser la formation\b/gi, label:'"digitaliser la formation"', sev:'blocking', note:'Remplacer par "structurer la transmission" / "déployer au poste de travail".'},
+    {re:/\bplateforme LMS\b/gi, label:'"plateforme LMS"', sev:'blocking', note:'Daylindo n\'est jamais présenté comme un LMS.'},
+    {re:/\bformer les collaborateurs\b/gi, label:'"former les collaborateurs"', sev:'warning', note:'Préférer "transmettre les compétences opérationnelles".'},
+    {re:/\bengagement collaborateur\b/gi, label:'"engagement collaborateur"', sev:'warning', note:'Préférer "professionnalisation des équipes terrain".'},
+    {re:/\bgestion des talents\b/gi, label:'"gestion des talents"', sev:'warning', note:'Préférer "gestion des compétences opérationnelles".'},
+    {re:/—/g, label:'tiret cadratin (—)', sev:'warning', note:'Règle de style : à éviter dans le corps du texte.'},
+    {re:/\binnovant(e|s)?\b/gi, label:'"innovant"', sev:'warning', note:'Superlatif à ne jamais employer seul, sans contenu factuel autour.'},
+  ];
+  bannedTerms.forEach(term => {
+    const occ = findAll(text, term.re);
+    if(occ.length){
+      findings.vocab.push({sev:term.sev, html:`<b>${term.label}</b> — ${occ.length} occurrence(s). ${term.note}<span class="ctx">"…${escapeHtml(occ[0].context)}…"</span>`});
+    }
+  });
+
+  // "tuteur" contextual check
+  const tuteurOcc = findAll(text, /\btuteurs?\b/gi);
+  if(tuteurOcc.length){
+    const nearLegal = /fonction tutorale|afest|d6313/i.test(text);
+    if(nearLegal){
+      findings.vocab.push({sev:'info', html:`<b>"tuteur"</b> détecté (${tuteurOcc.length}x) — contexte légal/AFEST présent dans le texte : usage probablement volontaire (cf. guide "Le mot juste"). Vérifier qu'il est tenu du début à la fin sans alterner avec "formateur terrain".`});
+    } else {
+      findings.vocab.push({sev:'warning', html:`<b>"tuteur"</b> détecté (${tuteurOcc.length}x) sans contexte légal AFEST apparent — préférer "formateur terrain" en vocabulaire de marque général.<span class="ctx">"…${escapeHtml(tuteurOcc[0].context)}…"</span>`});
+    }
+  }
+
+  // Terminology reminders (info only)
+  const termWatch = [
+    {re:/\bparcours\b/gi, label:'"parcours"', note:'Vérifier si "itinéraire" est le terme produit exact dans ce contexte.'},
+    {re:/\b(module|leçon)s?\b/gi, label:'"module/leçon"', note:'Terme produit préféré : "activité".'},
+    {re:/\bsous-compétences?\b/gi, label:'"sous-compétence"', note:'Terme produit préféré : "micro-compétence".'},
+    {re:/(?<![A-Za-zÀ-ÖØ-öø-ÿ])(évaluateurs?|assesseurs?)\b/gi, label:'"évaluateur/assesseur"', note:'Terme produit préféré : "superviseur".'},
+  ];
+  termWatch.forEach(t => {
+    const occ = findAll(text, t.re);
+    if(occ.length){
+      findings.vocab.push({sev:'info', html:`<b>${t.label}</b> détecté (${occ.length}x). ${t.note}`});
+    }
+  });
+
+  if(findings.vocab.filter(f=>f.sev==='blocking'||f.sev==='warning').length === 0){
+    findings.vocab.push({sev:'ok', html:'Aucun terme banni ou déconseillé détecté.'});
+  }
+
+  // ---------- 2. LE MOT JUSTE ----------
+  const diffOcc = findAll(text, /\bla difficulté(?![A-Za-zÀ-ÖØ-öø-ÿ])/gi);
+  if(diffOcc.length){
+    findings.motjuste.push({sev:'warning', html:`<b>"la difficulté"</b> détecté (${diffOcc.length}x) — principe 03 : neutre/positif plutôt que négatif. Suggestion : "l'enjeu".<span class="ctx">"…${escapeHtml(diffOcc[0].context)}…"</span>`});
+  }
+  const probOcc = findAll(text, /\bproblèmes?\b/gi);
+  if(probOcc.length >= 2){
+    findings.motjuste.push({sev:'warning', html:`<b>"problème"</b> utilisé ${probOcc.length} fois — envisager une formulation plus neutre ("l'enjeu", "la question") sur au moins une occurrence.`});
+  } else if(probOcc.length === 1){
+    findings.motjuste.push({sev:'info', html:`<b>"problème"</b> utilisé 1 fois — à vérifier si une formulation neutre serait préférable.`});
+  }
+  const pronomOcc = findAll(text, /(^|\.\s+)(Cela|Ce qui|Ceci|Celles-ci|Ceux-ci)\s/g);
+  if(pronomOcc.length){
+    findings.motjuste.push({sev:'info', html:`<b>Pronom potentiellement vague</b> en début de phrase (${pronomOcc.length}x, ex. "Cela", "Ce qui"). Principe 06 : vérifier que le référent est un nom précis, pas un pronom flou.`});
+  }
+  const maisOcc = findAll(text, /\bmais\b/gi);
+  if(maisOcc.length){
+    findings.motjuste.push({sev:'info', html:`<b>"mais"</b> utilisé ${maisOcc.length}x — principe 08 : à vérifier manuellement que chaque occurrence marque une vraie opposition, pas une simple liaison.<span class="ctx">"…${escapeHtml(maisOcc[0].context)}…"</span>`});
+  }
+  const hasQualiopi = /qualiopi/i.test(text);
+  const hasOpco = /\bopco\b/i.test(text);
+  if(hasQualiopi && hasOpco){
+    findings.motjuste.push({sev:'info', html:`<b>Qualiopi</b> et <b>OPCO</b> mentionnés tous les deux — principe 05 : vérifier que les deux sont réellement concernés dans leur paragraphe respectif, pas accolés par réflexe.`});
+  }
+  if(findings.motjuste.length === 0){
+    findings.motjuste.push({sev:'ok', html:'Aucun signal détecté sur les 8 principes automatisables.'});
+  }
+
+  // ---------- 3. STRUCTURE / SEO-GEO ----------
+  const hasMeta = /meta title|meta description/i.test(text);
+  findings.structure.push({sev: hasMeta ? 'ok' : 'blocking', html: hasMeta ? 'Meta title / meta description présents.' : '<b>Meta title / meta description absents</b> — nécessaires avant indexation.'});
+
+  const hasDate = /\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/.test(text) || /publié le/i.test(text);
+  const hasAuthor = /\bpar\s+[A-ZÉÀ][a-zéèêàâîôûù]+\s+[A-ZÉÀ][a-zéèêàâîôûù]+/.test(text) || /\bauteur\s*:/i.test(text) || /\br[ée]dig[ée]\s+par\b/i.test(text);
+  if(!hasDate && !hasAuthor){
+    findings.structure.push({sev:'blocking', html:'<b>Date de publication et signature d\'auteur absentes</b> — critère E-E-A-T/GEO récurrent.'});
+  } else if(!hasDate){
+    findings.structure.push({sev:'warning', html:'Signature détectée, mais pas de date de publication visible.'});
+  } else if(!hasAuthor){
+    findings.structure.push({sev:'warning', html:'Date détectée, mais pas de signature d\'auteur visible.'});
+  } else {
+    findings.structure.push({sev:'ok', html:'Date et signature d\'auteur détectées.'});
+  }
+
+  const tail = text.slice(Math.max(0, text.length - 600));
+  const hasCTA = /rendez-vous|demandez|calendly|contactez|prendre contact|essai gratuit|diagnostic/i.test(tail);
+  findings.structure.push({sev: hasCTA ? 'ok' : 'blocking', html: hasCTA ? 'CTA détecté en fin d\'article.' : '<b>Aucun CTA détecté en fin d\'article</b> — vérifier la présence d\'un appel à l\'action clair.'});
+
+  const linkCount = (text.match(/https?:\/\/|\]\(/g) || []).length;
+  if(linkCount === 0){
+    findings.structure.push({sev:'warning', html:'<b>Aucun lien détecté</b> (interne ou externe) — vérifier le maillage avant publication.'});
+  } else {
+    findings.structure.push({sev:'ok', html:`${linkCount} lien(s) détecté(s) dans le texte.`});
+  }
+
+  if(famille === 'B'){
+    const hasFAQ = /\bFAQ\b|questions fréquentes/i.test(text);
+    findings.structure.push({sev: hasFAQ ? 'ok' : 'warning', html: hasFAQ ? 'Section FAQ présente (attendue en Famille B).' : 'Pas de FAQ détectée — généralement attendue en Famille B.'});
+  }
+
+  // Empty section heuristic: consecutive short "heading-like" lines
+  const lines = text.split(/\n/).map(l => l.trim()).filter(l => l.length > 0);
+  const isHeadingLike = (l) => l.length > 0 && l.length <= 75 && !/[.!?…]$/.test(l) && !/^https?:\/\//.test(l);
+  let emptySection = null;
+  for(let i=0; i<lines.length-1; i++){
+    if(isHeadingLike(lines[i]) && isHeadingLike(lines[i+1])){
+      emptySection = {a: lines[i], b: lines[i+1]};
+      break;
+    }
+  }
+  if(emptySection){
+    findings.structure.push({sev:'blocking', html:`<b>Section potentiellement vide</b> entre "${escapeHtml(emptySection.a)}" et "${escapeHtml(emptySection.b)}" — vérifier qu'aucun contenu n'a été oublié.`});
+  }
+
+  const wordCount = (text.match(/\S+/g) || []).length;
+  if(wordCount < 500){
+    findings.structure.push({sev:'warning', html:`Article court : ${wordCount} mots — vérifier que la profondeur est suffisante.`});
+  } else if(wordCount > 2200){
+    findings.structure.push({sev:'info', html:`Article long : ${wordCount} mots — vérifier la pertinence de la longueur.`});
+  } else {
+    findings.structure.push({sev:'ok', html:`Longueur : ${wordCount} mots.`});
+  }
+
+  // ---------- 4. RÉFÉRENCES LÉGALES ----------
+  const legalCodes = text.match(/\b[LRD]\d{3,4}-\d+(-\d+)?\b/g) || [];
+  const uniqueCodes = [...new Set(legalCodes)];
+  if(uniqueCodes.length === 0){
+    findings.legal.push({sev:'info', html:'Aucune référence d\'article de loi détectée dans le texte.'});
+  } else {
+    uniqueCodes.forEach(code => {
+      if(LEGAL_REF[code]){
+        findings.legal.push({sev:'info', html:`<b>${code}</b> détecté — ${LEGAL_REF[code]}`});
+      } else {
+        findings.legal.push({sev:'info', html:`<b>${code}</b> détecté — référence non répertoriée dans le dictionnaire interne, à vérifier manuellement sur Légifrance.`});
+      }
+    });
+    // Specific known error: "élément probant" near L6313-2
+    const idxL = text.search(/L6313-2/);
+    if(idxL !== -1){
+      const around = text.slice(Math.max(0, idxL-250), idxL+250);
+      if(/élément probant/i.test(around)){
+        findings.legal.push({sev:'blocking', html:`<b>Erreur probable</b> : "élément probant" associé à L6313-2 dans le texte — cette notion appartient à <b>R6313-3</b>, pas à L6313-2. Vérifier la référence.`});
+      }
+    }
+  }
+
+  // ---------- 5. COHÉRENCE SECTORIELLE ----------
+  if(secteur !== 'none' && SECTOR_REF[secteur]){
+    const ref = SECTOR_REF[secteur];
+    findings.sector.push({sev:'info', html:`<b>Rappel — ${ref.label}</b><br>Arguments prioritaires : ${ref.prio}<br>À éviter : ${ref.avoid}`});
+
+    const industrieSignal = (text.match(/savoir-faire critique|geste métier|connaissances implicites|capitaliser le savoir-faire/gi) || []).length;
+    if((secteur === 'logistique' || secteur === 'retail') && industrieSignal >= 2){
+      findings.sector.push({sev:'warning', html:`Vocabulaire orienté "transmission de savoir-faire complexe" détecté ${industrieSignal}x — vérifier l'adéquation avec le secteur sélectionné (${ref.label}), plus typique de l'Industrie.`});
+    }
+    if(secteur === 'transport'){
+      const afestPush = /afest/i.test(text);
+      const financeOpen = /financement/i.test(text.slice(0, 400));
+      if(afestPush){
+        findings.sector.push({sev:'warning', html:'Le secteur Transport appelle à la prudence sur l\'AFEST au sens strict — vérifier que l\'angle "suivi/traçabilité" est privilégié plutôt qu\'une AFEST forcée.'});
+      }
+      if(financeOpen){
+        findings.sector.push({sev:'warning', html:'Mention du financement détectée en début de texte — le guide recommande de ne jamais ouvrir sur cet argument pour le Transport.'});
+      }
+    }
+  } else {
+    findings.sector.push({sev:'info', html:'Aucun secteur sélectionné — sélectionnez un secteur pour afficher les rappels de doctrine correspondants.'});
+  }
+
+  // ---------- 3bis. TON ----------
+  findings.tone = [];
+  const hypeWords = [
+    {re:/\bincontournables?\b/gi, note:'Superlatif commercial — reformuler factuellement.'},
+    {re:/\bleaders?\s+(du|sur le)\s+marché(?![A-Za-zÀ-ÖØ-öø-ÿ])/gi, note:'Affirmation de leadership non sourcée — à prouver ou retirer.'},
+    {re:/\bdisrupti(f|ve)s?\b/gi, note:'Registre "startup buzzword", éloigné du ton factuel Daylindo.'},
+    {re:/\bpropulser\b/gi, note:'Verbe promotionnel — préférer une formulation concrète.'},
+    {re:/\bboost(e|er|ez|ent)?\b/gi, note:'Registre publicitaire — préférer un verbe factuel (améliore, réduit, sécurise...).'},
+    {re:/\bexceptionnel(le)?s?\b/gi, note:'Superlatif à justifier par un fait, jamais affirmé seul.'},
+    {re:/\bincroyables?\b/gi, note:'Superlatif commercial.'},
+    {re:/\bextraordinaires?\b/gi, note:'Superlatif commercial.'},
+    {re:/\bunique en son genre\b/gi, note:'Affirmation invérifiable — à sourcer ou retirer.'},
+    {re:/\brévolutionn(er|e|ez|ons|ent)\b/gi, note:'Verbe promotionnel — décrire le changement concrètement plutôt que l\'affirmer.'},
+    {re:/\bsans équivalent\b/gi, note:'Affirmation invérifiable — à sourcer ou retirer.'},
+    {re:/\bn°\s?1\b|\bnuméro\s+1\b/gi, note:'Classement affirmé — à sourcer ou retirer.'},
+  ];
+  hypeWords.forEach(h => {
+    const occ = findAll(text, h.re);
+    if(occ.length){
+      findings.tone.push({sev:'warning', html:`<b>${occ[0].match}</b> détecté (${occ.length}x) — ${h.note}<span class="ctx">"…${escapeHtml(occ[0].context)}…"</span>`});
+    }
+  });
+
+  const exclamCount = (text.match(/!/g) || []).length;
+  if(exclamCount > 0){
+    findings.tone.push({sev:'warning', html:`<b>${exclamCount} point(s) d'exclamation</b> détecté(s) — le ton Daylindo reste factuel et posé, à réserver aux cas réellement justifiés.`});
+  }
+
+  const bodyForCTA = text.slice(0, Math.max(0, text.length - 600));
+  const midTextCTA = findAll(bodyForCTA, /\bdécouvrez\b|\bprofitez\b|\bn'attendez plus\b|\bne manquez pas\b/gi);
+  if(midTextCTA.length){
+    findings.tone.push({sev:'warning', html:`<b>Tournure incitative</b> détectée hors du CTA final (${midTextCTA.length}x, ex. "${midTextCTA[0].match}") — registre publicitaire à éviter en dehors de l'appel à l'action.<span class="ctx">"…${escapeHtml(midTextCTA[0].context)}…"</span>`});
+  }
+
+  if(famille === 'A'){
+    const words = text.split(/\s+/);
+    const earlyZone = words.slice(0, Math.max(30, Math.floor(words.length * 0.2))).join(' ');
+    if(/\bdaylindo\b/i.test(earlyZone)){
+      findings.tone.push({sev:'warning', html:`<b>"Daylindo" mentionné tôt dans le texte</b> — en Famille A (récit de terrain), Daylindo ne doit apparaître qu'en toute fin de l'article.`});
+    }
+  }
+
+  if(findings.tone.length === 0){
+    findings.tone.push({sev:'ok', html:'Aucun signal de ton promotionnel ou survendu détecté.'});
+  }
+
+  // ---------- RENDER ----------
+  const allFindings = [...findings.vocab, ...findings.motjuste, ...findings.tone, ...findings.structure, ...findings.legal, ...findings.sector];
+  const nBlocking = allFindings.filter(f=>f.sev==='blocking').length;
+  const nWarning = allFindings.filter(f=>f.sev==='warning').length;
+  const nInfo = allFindings.filter(f=>f.sev==='info').length;
+
+  let verdictClass, verdictText;
+  if(nBlocking > 0){
+    verdictClass = 'blocking';
+    verdictText = `🔴 ${nBlocking} point(s) bloquant(s) — à corriger avant envoi à Gerardo.`;
+  } else if(nWarning > 0){
+    verdictClass = 'warning';
+    verdictText = `🟠 Aucun bloquant, mais ${nWarning} point(s) à vérifier avant publication.`;
+  } else {
+    verdictClass = 'ok';
+    verdictText = `🟢 Aucun signal automatisable détecté — vérification humaine (doctrine, ton) toujours recommandée.`;
+  }
+
+  const sevIcon = {blocking:'🔴', warning:'🟠', info:'⚪', ok:'🟢'};
+
+  function renderCategory(title, items){
+    if(!items.length) return '';
+    let html = `<div class="category"><h3>${title}</h3>`;
+    items.forEach(f => {
+      if(f.sev === 'ok' && items.length === 1){
+        html += `<div class="no-issue">🟢 ${f.html}</div>`;
+      } else {
+        html += `<div class="finding ${f.sev}"><span class="tag">${sevIcon[f.sev]}</span><span class="txt">${f.html}</span></div>`;
+      }
+    });
+    html += '</div>';
+    return html;
+  }
+
+  let html = `
+    <div class="scoreboard">
+      <div class="score-card blocking"><div class="num">${nBlocking}</div><div class="lbl">Bloquants</div></div>
+      <div class="score-card warning"><div class="num">${nWarning}</div><div class="lbl">À vérifier</div></div>
+      <div class="score-card info"><div class="num">${nInfo}</div><div class="lbl">Informations</div></div>
+    </div>
+    <div class="verdict ${verdictClass}">${verdictText}</div>
+    ${renderCategory('Vocabulaire de marque', findings.vocab)}
+    ${renderCategory('Le mot juste (8 principes)', findings.motjuste)}
+    ${renderCategory('Ton', findings.tone)}
+    ${renderCategory('Structure / SEO-GEO', findings.structure)}
+    ${renderCategory('Références légales', findings.legal)}
+    ${renderCategory('Cohérence sectorielle', findings.sector)}
+    <div class="disclaimer">Cet outil détecte les signaux automatisables (vocabulaire, structure, références légales, quelques principes stylistiques). Il ne juge pas la pertinence stratégique, la doctrine de fond ni le ton — la relecture humaine reste nécessaire sur ces points.</div>
+  `;
+
+  resultsEl.innerHTML = html;
+});
+
+// --- Manual checklist counter ---
+const manualBoxes = Array.from(document.querySelectorAll('#manual-list input[type=checkbox]'));
+const manualBadge = document.getElementById('manual-badge');
+const manualCallout = document.getElementById('manual-callout');
+
+function updateManualCounter(){
+  const total = manualBoxes.length;
+  const checked = manualBoxes.filter(b => b.checked).length;
+  manualBadge.textContent = `${checked} / ${total}`;
+  manualBadge.classList.toggle('done', checked === total);
+  if(checked === total){
+    manualCallout.textContent = `${checked}/${total} — vérification manuelle complète.`;
+  } else {
+    manualCallout.textContent = `${checked} case(s) cochée(s) sur ${total} — passez en revue chaque point avant l'envoi.`;
+  }
+}
+
+manualBoxes.forEach(box => {
+  box.addEventListener('change', () => {
+    box.closest('li').classList.toggle('checked', box.checked);
+    updateManualCounter();
+  });
+});
+</script>
+
+</body>
+</html>
