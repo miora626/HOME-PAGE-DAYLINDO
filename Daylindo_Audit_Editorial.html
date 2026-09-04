@@ -343,6 +343,10 @@
       <option value="agro">Agroalimentaire</option>
     </select>
 
+    <label for="keywords">Mots-clés cibles (optionnel, séparés par des virgules)</label>
+    <input type="text" id="keywords" placeholder="ex. gestion des compétences, référentiel de compétences" style="width:100%;padding:9px 10px;border:1px solid var(--hairline);border-radius:5px;background:#FDFCF9;font-size:13.5px;color:var(--ink);">
+    <p class="hint" style="margin-top:6px;">Sert à ne pas confondre une répétition de mot-clé voulue (SEO) avec une tournure répétée par erreur.</p>
+
     <button id="analyze">Analyser l'article →</button>
     <p class="hint">Cet outil vérifie le vocabulaire de marque, les principes "Le mot juste", la structure SEO/GEO et les références légales AFEST. Il ne remplace pas la relecture humaine sur la doctrine et la pertinence stratégique.</p>
   </section>
@@ -530,6 +534,55 @@ document.getElementById('analyze').addEventListener('click', () => {
   if(hasQualiopi && hasOpco){
     findings.motjuste.push({sev:'info', html:`<b>Qualiopi</b> et <b>OPCO</b> mentionnés tous les deux — principe 05 : vérifier que les deux sont réellement concernés dans leur paragraphe respectif, pas accolés par réflexe.`});
   }
+
+  // Heavy "C'est... qui/que" construction
+  const heavyConstruction = findAll(text, /\bc['’]est\s+.{3,70}?\s+(qui|que)\b/gi);
+  if(heavyConstruction.length){
+    findings.motjuste.push({sev:'info', html:`<b>Construction "C'est... qui/que"</b> détectée (${heavyConstruction.length}x) — souvent allégeable par une formulation directe (ex. "C'est cette traduction qui permet" → "Cette traduction permet").<span class="ctx">"…${escapeHtml(heavyConstruction[0].context)}…"</span>`});
+  }
+
+  // Repeated phrase detection (near-identical wording reused far apart in the text)
+  // Excludes repeats that overlap heavily with the target keywords (intentional SEO repetition),
+  // and only reports grams containing a verb-like word (sentence-template repeats), not bare noun phrases.
+  const keywordsRaw = document.getElementById('keywords').value || '';
+  const keywordWords = new Set(
+    keywordsRaw.toLowerCase().split(',').flatMap(k => k.trim().split(/\s+/)).filter(w => w.length > 1)
+  );
+  const VERB_HINTS = new Set(['devient','deviennent','permet','permettent','reste','restent','demeure','constitue','constituent','représente','implique','suppose','nécessite','impose','exige','assure','garantit','transforme','structure','construit','produit','alimente','répond','couvre','organise','documente','démontre','valide','observe','trace','évalue','sécurise','conditionne','détermine','recouvre','regroupe','limite','facilite','renforce','complète','prolonge','résout','expire','augmente','apparaît','apparaissent','doit','doivent','peut','peuvent','faut','était','sont','est','fait','faisait','donne','donnent','permettra','deviendra']);
+  function findRepeatedPhrases(fullText, n, minLen){
+    const words = fullText.replace(/\s+/g, ' ').trim().split(' ');
+    const seen = new Map();
+    const repeats = [];
+    const reported = new Set();
+    for(let i = 0; i <= words.length - n; i++){
+      const gramWords = words.slice(i, i + n);
+      const gram = gramWords.join(' ');
+      const norm = gram.toLowerCase().replace(/[.,;:!?«»"'']/g, '');
+      if(norm.length < minLen) continue;
+      const normWords = norm.split(' ').filter(Boolean);
+      if(!normWords.some(w => VERB_HINTS.has(w))) continue;
+      if(keywordWords.size){
+        const overlap = normWords.filter(w => keywordWords.has(w)).length / normWords.length;
+        if(overlap >= 0.5) continue;
+      }
+      if(seen.has(norm)){
+        if(!reported.has(norm) && (i - seen.get(norm)) > n){
+          repeats.push(gram);
+          reported.add(norm);
+        }
+      } else {
+        seen.set(norm, i);
+      }
+    }
+    return repeats;
+  }
+  const repeatedPhrases = findRepeatedPhrases(text, 4, 15).slice(0, 3);
+  if(repeatedPhrases.length){
+    repeatedPhrases.forEach(gram => {
+      findings.motjuste.push({sev:'info', html:`<b>Tournure répétée</b> à deux endroits éloignés du texte : "${escapeHtml(gram)}" — relire l'article dans son ensemble, pas paragraphe par paragraphe.`});
+    });
+  }
+
   if(findings.motjuste.length === 0){
     findings.motjuste.push({sev:'ok', html:'Aucun signal détecté sur les 8 principes automatisables.'});
   }
